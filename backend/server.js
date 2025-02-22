@@ -1,18 +1,23 @@
 require('dotenv').config()
 
 const express = require('express')
+const mongoose = require('mongoose')
+const routes = require('./routes')
 
+const app = express()
 
-const app = express();
+app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.json({message: 'Welcome to the app poophead'});
-})
+app.use('/api', routes)
 
-app.get('/register/:email', (req, res) => {
-    res.json({message: "You registered with an email"})
-})
-
-app.listen(process.env.PORT, () => {
-    console.log('Listening on port', process.env.PORT);
-})
+//connect to db
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        //Listen only upon database connection.
+        app.listen(process.env.PORT, () => {
+            console.log('Connected to database and listening on port', process.env.PORT);
+        })
+    })
+    .catch((error) => {
+        console.log(error)
+    })
