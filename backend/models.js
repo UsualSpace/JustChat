@@ -34,7 +34,7 @@ const groupchat_schema = new mongoose.Schema({
 }, {timestamps: true});
 
 const User = mongoose.model('User', user_schema);
-const Friendship = mongoose.model('FriendShip', friendship_schema);
+const Friendship = mongoose.model('Friendship', friendship_schema);
 const GroupChat = mongoose.model("GroupChat", groupchat_schema);
 
 module.exports = {
