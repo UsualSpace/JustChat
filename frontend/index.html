@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Just Chat - Messaging App</title>
+    <title>JustChat - Messaging App</title>
     <style>
               body {
                   font-family: Arial, sans-serif;
@@ -14,6 +14,7 @@
                   color: white;
                   margin: 0;
               }
+              
               .sidebar {
                   width: 250px;
                   background: #1e1e1e;
@@ -35,13 +36,12 @@
                   background: #333;
               }
 
-                <!-- Logo Section -->
+               
               .logo {
-                  font-size: 24px;
-                  font-weight: bold;
-                  color: white;
-                  text-align: center;
-                  margin-bottom: 20px;
+                  width: 150px;
+                  display: block;
+                  margin: 0 auto;
+                  cursor: pointer;
               }
 
               .logo-link {
@@ -54,12 +54,24 @@
                   color: white;
                 }
 
+                /* Main content area */
+              .main-content {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: flex-start; /* Centers horizontally */
+                  align-items: center; /* Centers vertically */
+                  
+                  width: 100%; /* Full width */
+                 
+              }
+
               .container {
                   flex-grow: 1;
                   display: flex;
                   flex-direction: column;
                   background: #121212;
                   padding: 20px;
+                  width: 1000px;
               }
               .messages {
                   flex-grow: 1;
@@ -105,10 +117,16 @@
                   cursor: pointer;
               }
               .profile {
-                  width: 250px;
-                  background: #1e1e1e;
-                  padding: 20px;
-                  text-align: center;
+                position: absolute;
+                top: 20px;  /* Distance from the top */
+                right: 20px; /* Distance from the right */
+                background: #1e1e1e;  /* Dark theme background */
+                padding: 10px;
+                border-radius: 10px;
+                text-align: center;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+                color: white;
+                width: 150px;
               }
               .hidden {
                   display: none;
@@ -118,7 +136,7 @@
   <body>
     <div class="sidebar">
       <a href="index.html" class="logo-link">
-        <img src="JustChat.png" alt="Just Chat" class="logo" />
+        <img src="assets/JustChat.png" alt="JustChat" class="logo" />
       </a>
       <button onclick="showSection('messagesSection')">Messages</button>
       <button onclick="showSection('groupChatsSection')">Group Chats</button>
@@ -126,20 +144,21 @@
       <button onclick="showSection('settingsSection')">Settings</button>
       <button onclick="showSection('friendsSection')">Friends</button>
     </div>
-
-    <div class="container">
-      <div id="messagesSection">
-        <h3>Private Messages</h3>
-        <div class="messages" id="messages"></div>
-        <div class="input-container">
-          <input
-            type="text"
-            id="messageInput"
-            placeholder="Type a message..."
-          />
-          <button onclick="sendMessage('messages')">Send</button>
+    <div class="main-content">
+      <div class="container">
+        <div id="messagesSection">
+          <h3>Private Messages</h3>
+          <div class="messages" id="messages"></div>
+          <div class="input-container">
+            <input
+              type="text"
+              id="messageInput"
+              placeholder="Type a message..."
+            />
+            <button onclick="sendMessage('messages')">Send</button>
+          </div>
         </div>
-      </div>
+      
 
       <div id="groupChatsSection" class="hidden">
         <h3>Group Chats</h3>
@@ -152,6 +171,7 @@
           />
           <button onclick="sendMessage('groupMessages')">Send</button>
         </div>
+      </div>
       </div>
     </div>
 
