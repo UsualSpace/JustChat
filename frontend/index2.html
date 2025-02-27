@@ -14,10 +14,9 @@
                 --secondary-text-clr: #b0b3c1;
             }
             
+            
             body {
                 font-family: Arial, sans-serif;
-            MONGO_URI = mongodb+srv://AANN:m0ng0@justchat0.p3bxk.mongodb.net/
-            PORT = 4000  display: flex;
                 min-height: 100vh;
                 min-height: 100dvh;
                 background-color: var(--base-clr);
@@ -29,6 +28,11 @@
             *{
                 margin: 0;
                 padding: 0;
+            }
+
+            html{
+                font-family: 'Segoe UI';
+                line-height: 1.5rem;
             }
 
 
@@ -60,6 +64,7 @@
                 padding: 5px 1em;
                 background-color: var(--base-clr);
                 border-right: 1px solid var(--line-clr);
+
                 position: sticky;
                 top: 0;
                 align-self: start;
@@ -67,6 +72,10 @@
 
             #sidebar ul {
                 list-style: none;
+            }
+            
+            #sidebar > ul > li:first-child{
+                display:flex;
                 justify-content: flex-end;
                 margin-bottom: 16px;
                 .logo {
@@ -75,7 +84,7 @@
             }
 
             #sidebar ul li.active a{
-                color: var(--accent-clr);
+                color: var(--text-clr);
                 svg{
                     fill: var(--acent-clr);
                 }
@@ -85,10 +94,19 @@
                 border-radius: .5em;
                 padding: .85em;
                 text-decoration: none;
-                color:var(--text-clr);
+                color: var(--text-clr);
                 display: flex;
                 align-items: center;
                 gap: 1em;
+            }
+            
+            .dropdown-btn{
+                width: 100%;
+                text-align: left;
+                background: none;
+                border: none;
+                font: inherit;
+                cursor: pointer;
             }
 
             #sidebar a:hover, #sidebar .dropdown-btn:hover {
@@ -183,29 +201,30 @@
     <body>
         <nav id="sidebar">
             <ul>
-                </li>
-                <li class="active">
-                    <a href="profile.html"></a>
-                        <ion-icon name="person-circle-outline"></ion-icon>
-                        <span class="logo">JustChat</span>
+                <li>
+                    <span class="logo">JustChat</span>
+                        <!--<ion-icon name="person-circle-outline"></ion-icon>-->
                         <button id="toggle-btn">
                             <ion-icon name="chevron-forward-outline"></ion-icon>
                         </button>
                 </li>
                 <li class="active">
-                    <a href="index2.html"></a>
+                    <a href="index2.html">
                         <ion-icon name="home-outline"></ion-icon>
                         <span>Home</span>
+                    </a>
                 </li>
                 <li class="active">
-                    <a href="message.html"></a>
+                    <a href="message.html">
                         <ion-icon name="chatbox-outline"></ion-icon>
                         <span>Message</span>
+                    </a>
                 </li>
                 <li class="active">
-                    <a href="settings.html"></a>
+                    <a href="settings.html">
                         <ion-icon name="settings-outline"></ion-icon>
                         <span>Settings</span>
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -222,42 +241,14 @@
                 <h2>Lorem Ipsum</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
+            <div class="container">
+                <h2>Lorem Ipsum</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
             
 
         </main>
-        <div class="sidebar">
-            <a href="#">
-                <span class = "profile-icon">
-                    <ion-icon name="person-circle-outline"></ion-icon>
-                </span>
-            </a>
-            <a href="#">
-                <span class = "icon">
-                    <ion-icon name="home-outline"></ion-icon>
-                </span>
-            </a>
-            <a href="#">
-                <span class = "icon">
-                    <ion-icon name="chatbox-outline"></ion-icon>
-                </span>
-            </a>
-            <a>
-                <span class = "icon">
-                    <ion-icon name="people-outline"></ion-icon>
-                </span>
-            </a>
-            <a>
-                <span class = "icon">
-
-                </span>
-            </a>
-            <a href = "#">
-                <span class = "settings-icon">
-                    <ion-icon name="settings-outline"></ion-icon>
-                </span>
-            </a>
-
-            <h1>Groupchats</h1>
+        
 
 
           <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
