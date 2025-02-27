@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JustChat</title>
+    <style>
+        :root {
+                --base-clr: #11121a;
+                --line-clr: #42434a;
+                --hover-clr: #222533;
+                --text-clr: #e6e6ef;
+                --accent-clr: #5e63ff;
+                --secondary-text-clr: #b0b3c1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--base-clr);
+            color: white;
+        }
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            max-width: 900px;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.7);
+        }
+        .signup-container, .info-container {
+            width: 50%;
+            padding: 20px;
+        }
+        .signup-container {
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: #333;
+            color: white;
+        }
+        input:focus {
+            outline: 2px solid #007bff;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: var(--accent-clr);
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #5eb4ff;
+        }
+        .info-container {
+            text-align: center;
+            border-left: 2px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Container Wrapping Both Sections -->
+    <div class="main-container">
+        <!-- Left Side: Sign Up Form -->
+        <div class="signup-container">
+            <h2>Create an Account</h2>
+            <form action="dashboard.html" method="POST">
+                <input type="text" placeholder="First Name" required>
+                <input type="text" placeholder="Last Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+                <p style="margin-top: 15px;">Already have an account?  
+                    <a href="login.html" style="color: #007bff; text-decoration: none; font-weight: bold;">Log in</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- Right Side: Info Section -->
+        
+        
+        <div class="info-container">
+            <h2>Welcome to JustChat</h2>
+            <p>Connect with friends and chat seamlessly.</p>
+            <p>Sign up today and start your conversations.</p>
+        </div>
+    </div>
+</body>
+</html>
