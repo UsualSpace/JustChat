@@ -117,7 +117,7 @@ document.getElementById("email").addEventListener("blur", async function () {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON, stringify({ email })
+                body: JSON.stringify({ email })
             });
 
             let result = await response.json();
