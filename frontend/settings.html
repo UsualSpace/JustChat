@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset = "UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>JustChat</title>
+        <style>
+            :root {
+                --base-clr: #11121a;
+                --line-clr: #42434a;
+                --hover-clr: #222533;
+                --text-clr: #e6e6ef;
+                --accent-clr: #5e63ff;
+                --secondary-text-clr: #b0b3c1;
+            }
+            
+            
+            body {
+                font-family: Arial, sans-serif;
+                min-height: 100vh;
+                min-height: 100dvh;
+                background-color: var(--base-clr);
+                color: var(--text-clr);
+                display: grid;
+                grid-template-columns: auto 1fr;
+            }
+
+            *{
+                margin: 0;
+                padding: 0;
+            }
+
+            html{
+                font-family: 'Segoe UI';
+                line-height: 1.5rem;
+            }
+
+
+            main{
+                padding: min(30px, 7%);
+            }
+
+            main p{
+                color: var(--secondary-text-clr);
+                margin-top: 5px;
+                margin-bottom: 15px;
+            }
+
+            
+            
+
+
+            #sidebar{
+                box-sizing: border-box;
+                height: 100vh;
+                width: 250px;
+                padding: 5px 1em;
+                background-color: var(--base-clr);
+                border-right: 1px solid var(--line-clr);
+
+                position: sticky;
+                top: 0;
+                align-self: start;
+                
+            }
+
+            #sidebar ul {
+                list-style: none;
+            }
+            
+            #sidebar > ul > li:first-child{
+                display:flex;
+                justify-content: flex-end;
+                margin-bottom: 16px;
+                .logo {
+                    font-weight: 600;
+                }
+            }
+
+            #sidebar ul li.active a{
+                color: var(--text-clr);
+                svg{
+                    fill: var(--acent-clr);
+                }
+            }
+
+            #sidebar a, #sidebar .dropdown-btn, #sidebar .logo {
+                border-radius: .5em;
+                padding: .85em;
+                text-decoration: none;
+                color: var(--text-clr);
+                display: flex;
+                align-items: center;
+                gap: 1em;
+            }
+            
+            #sidebar
+            
+            .dropdown-btn{
+                width: 100%;
+                text-align: left;
+                background: none;
+                border: none;
+                font: inherit;
+                cursor: pointer;
+            }
+
+            #sidebar a:hover, #sidebar .dropdown-btn:hover {
+                background-color: var(--hover-clr);
+            }
+
+            #toggle-btn{
+                margin-left: auto;
+                padding: 1em;
+                border: none;
+                border-radius: .5em;
+                background: none;
+            }
+
+            .logout{
+                position: absolute;
+                bottom: 0;
+                margin-bottom: 25px;
+                color: red;
+                width: 85%;
+            }
+
+            .notification{
+                border: 1px solid var(--line-clr);
+                border-radius: 1em;
+                margin-bottom: 20px;
+                padding: min(3em, 15%);
+                height: 40vh;
+
+                h2, p { margin-top: 1em}
+            }
+
+
+            .containers {
+                border: 1px solid var(--line-clr);
+                border-radius: 1em;
+                margin-bottom: 20px;
+                padding: min(3em, 15%);
+                height: 25vh;
+                display: flex;
+                h2, p { margin-top: 1em}
+            }
+            
+            .container1{
+                border: 1px solid var(--line-clr);
+                border-radius: 1em;
+                margin-right: 50px;
+                margin-bottom: 20px;
+                padding: min(1em, 10%);
+                height: 20vh;
+                
+                width: 45%;
+
+                h2, p { margin-top: 1em}
+            }
+
+            
+
+
+            .logo {
+                width: 50px;
+                display: block;
+                margin: 0 auto;
+                cursor: pointer;
+            }   
+
+            .logo-link {
+                text-decoration: none;
+                display: block;
+                text-align: center;
+            }
+            .logo-link:visited .logo,
+            .logo-link:active.logo {
+                color: white;
+            }
+
+            
+
+           
+        </style>
+
+
+
+    </head>
+    <body>
+        <nav id="sidebar">
+            <ul>
+                <li>
+                    <span class="logo">JustChat</span>
+                        <!--<ion-icon name="person-circle-outline"></ion-icon>-->
+                        <button id="toggle-btn">
+                            <ion-icon name="chevron-forward-outline"></ion-icon>
+                        </button>
+                </li>
+                <li class="active">
+                    <a href="index2.html">
+                        <ion-icon name="home-outline"></ion-icon>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="message.html">
+                        <ion-icon name="chatbox-outline"></ion-icon>
+                        <span>Message</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="settings.html">
+                        <ion-icon name="settings-outline"></ion-icon>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="active logout">
+                    <a href="settings.html">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <main>
+            <h2 style="margin-bottom: 10px;">Notifications</h2>
+            <div class="notification">
+                
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            
+            <div class="containers">
+                <div class="container1">
+                    <h2>Create Group</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div class="container1">
+                    <h2>Find Friend</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+            
+
+            
+
+        </main>
+        
+
+
+          <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+            <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    </body>
+</html>

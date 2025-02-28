@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JustChat</title>
+    <script type="text/javascript" src="app.js" defer></script>
     <style>
         :root {
                 --base-clr: #11121a;
@@ -87,16 +88,32 @@
         <!-- Left Side: Sign Up Form -->
         <div class="signup-container">
             <h2>Create an Account</h2>
-            <form action="dashboard.html" method="POST">
-                <input type="text" placeholder="First Name" required>
-                <input type="text" placeholder="Last Name" required>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <input type="password" placeholder="Confirm Password" required>
-                <button type="submit">Sign Up</button>
-                <p style="margin-top: 15px;">Already have an account?  
-                    <a href="login.html" style="color: #007bff; text-decoration: none; font-weight: bold;">Log in</a>
-                </p>
+            <form id="form" action="/">
+                <div class="input-control">
+                    <input id="firstname" placeholder="First Name" required>
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <input id="lastname" placeholder="Last Name" required>
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <input id="email" placeholder="Email" type="email" required>
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <input id="password" placeholder="Password" type="password" required>
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <input id="password2" placeholder="Confirm Password" type="password" required>
+                    <div class="error"></div>
+                </div>
+                    <button type="submit">Sign Up</button>
+                    <p style="margin-top: 15px;">Already have an account?  
+                        <a href="login.html" style="color: #007bff; text-decoration: none; font-weight: bold;">Log in</a>
+                    </p>
+                
             </form>
         </div>
 
