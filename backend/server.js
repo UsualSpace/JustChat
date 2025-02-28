@@ -6,8 +6,8 @@ const routes = require('./routes')
 
 const app = express()
 
+//Apply middleware.
 app.use(express.json())
-
 app.use('/api', routes)
 
 //connect to db
