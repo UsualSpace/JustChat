@@ -2,13 +2,15 @@ const express = require("express")
 const router = express.Router()
 const auth = require("./controllers/authentication_controller")
 const chat = require("./controllers/chat_controller")
+const middleware = require("./middleware");
 
 //AUTHENTICATION RELATED ROUTES.
 router.get("/auth/user-profile", ); //Get user profile information.
 
 router.post("/auth/signup", auth.SignUpUser); //Post a new user account.
-// router.post("/auth/login", controllers.LoginUser); //Login an existing user.
-// router.post("/auth/:userID/logout", controllers.LogoutUser); //Logout a logged in user.
+router.post("/auth/signin", auth.SignInUser); //Login an existing user.
+
+router.delete("/auth/signout", middleware.AuthenticateSession, auth.SignOutUser); //Signout a signed in in user.
 
 // router.patch("/auth/:userID/update-profile", controllers.UpdateUserProfile); //Update user profile fields.
 
@@ -17,7 +19,7 @@ router.post("/auth/signup", auth.SignUpUser); //Post a new user account.
 // router.get("/chat/:chatID/messages", ); //Get all messages.
 // router.get("/chat/:chatID/members", ); //Get all member data. 
 
-router.post("/chat", chat.CreateChat); //Post a new chat.
+router.post("/chat", middleware.AuthenticateSession, chat.CreateChat); //Post a new chat.
 // router.post("/chat/:chatID/messages", ); //Post a message to the chat with with chatID.    
 // router.post("/chat/:chatID/censored-phrases/:phrase", ); //Post a new censored phrase in the chat with chatID. 
 
