@@ -1,14 +1,16 @@
 require('dotenv').config()
-
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
+
 const routes = require('./routes')
 
 const app = express()
 
 //Apply middleware.
-app.use(express.json())
-app.use('/api', routes)
+app.use(cors());
+app.use(express.json());
+app.use('/api', routes);
 
 //connect to db
 mongoose.connect(process.env.MONGO_URI)
@@ -16,8 +18,8 @@ mongoose.connect(process.env.MONGO_URI)
         //Listen only upon database connection.
         app.listen(process.env.PORT, () => {
             console.log('Connected to database and listening on port', process.env.PORT);
-        })
+        });
     })
     .catch((error) => {
-        console.log(error)
-    })
+        console.log(error);
+    });

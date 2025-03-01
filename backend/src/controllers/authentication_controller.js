@@ -4,7 +4,7 @@ const SignUpUser = async (req, res) => {
   const { email, password, first_name, last_name } = req.body;
 
   if(!email || !password || !first_name || !last_name) {
-    return res.status(400).json({message: "missing fields"});
+    return res.status(400).json({error: "missing fields"});
   }
 
   try {
@@ -24,7 +24,7 @@ const SignInUser = async (req, res) => {
   const { email, password } = req.body;
 
   if(!email || !password) {
-    return res.status(400).json({message: "missing fields"});
+    return res.status(400).json({error: "missing fields"});
   }
 
   try {
@@ -33,7 +33,7 @@ const SignInUser = async (req, res) => {
 
     //Naive but for the scope of this project it should be fine.
     if(credentials.password !== password) {
-      return res.status(401).json({message: "invalid credentials"})
+      return res.status(401).json({error: "invalid credentials"})
     }
 
     //At this point, passwords matched so generate a session object and return 
@@ -52,7 +52,7 @@ const SignOutUser = async (req, res) => {
   const { session_id } = req.body;
   
   if(!session_id) {
-    return res.status(400).json({message: "missing fields"});
+    return res.status(400).json({error: "missing fields"});
   }
 
   try {
@@ -61,12 +61,12 @@ const SignOutUser = async (req, res) => {
 
     //Naive but for the scope of this project it should be fine.
     if(!session) {
-      return res.status(401).json({message: "invalid session id"});
+      return res.status(401).json({error: "invalid session id"});
     }
 
-    res.status(200).json({message: "successfully signed out"});
+    res.status(200).json({error: "successfully signed out"});
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message });
   }
 };
 
