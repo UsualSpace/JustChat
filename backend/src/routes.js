@@ -5,10 +5,12 @@ const chat = require("./controllers/chat_controller")
 const middleware = require("./middleware");
 
 //AUTHENTICATION RELATED ROUTES.
-router.get("/auth/user-profile", ); //Get user profile information.
+router.get("/auth/account-info", auth.GetAccountInfo); //Get user profile information.
 
 router.post("/auth/signup", auth.SignUpUser); //Post a new user account.
 router.post("/auth/signin", auth.SignInUser); //Login an existing user.
+
+router.patch("/auth/account-info", auth.UpdateAccountInfo);
 
 router.delete("/auth/signout", middleware.AuthenticateSession, auth.SignOutUser); //Signout a signed in in user.
 

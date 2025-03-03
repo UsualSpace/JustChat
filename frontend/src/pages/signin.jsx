@@ -1,4 +1,6 @@
+import { Route, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react"
+import axios from "axios"
 
 //Import below if we want to renavigate to sign up page.
 //import { Link } from "react-router-dom"
@@ -8,27 +10,25 @@ function SignIn() {
     const [password, SetPassword] = useState("");
     const [error, SetError] = useState(null);
 
+    const navigate = useNavigate();
+
     const HandleSubmit = async (event) => {
         event.preventDefault();
-        const account = {email, password};
-        const response = await fetch("http://localhost:4000/api/auth/signin", {
-            method: "POST",
-            body: JSON.stringify(account),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        const json = await response.json();
-
-        if(!response.ok) {
-            SetError(json.error);
-        }
-
-        if(response.ok) {
+        const credentials = {email, password};
+        try {
+            const response = await axios.post("http://localhost:4000/api/auth/signin", credentials);
             SetEmail("");
             SetPassword("");
             SetError(null);
-            console.log("Successfully signed in");
+            console.log("successfully signed in");
+            
+            //Store session id from server locally for protecting routes/future user authentication.
+            localStorage.setItem("session_id", response.data.session_id);
+
+            //Force navigate to the main dashboard.
+            navigate("/dashboard");
+        } catch (error) {
+            SetError(error.response?.data?.error || "sign in failed");
         }
     }
 

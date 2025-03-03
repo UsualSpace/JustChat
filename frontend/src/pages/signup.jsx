@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import axios from "axios"
 
 function SignUp() {
     const [email, SetEmail] = useState("");
@@ -12,27 +13,19 @@ function SignUp() {
     const HandleSubmit = async (event) => {
         event.preventDefault();
         const account = {email, password, first_name, last_name};
-        const response = await fetch("http://localhost:4000/api/auth/signup", {
-            method: "POST",
-            body: JSON.stringify(account),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        const json = await response.json();
-
-        if(!response.ok) {
-            SetError(json.error);
-        }
-
-        if(response.ok) {
+        try {
+            const response = await axios.post("http://localhost:4000/api/auth/signup", account);
+            //Clear form fields on successful signup
             SetFirst("");
             SetLast("");
             SetEmail("");
             SetPassword("");
             SetConfirm("");
             SetError(null);
-            console.log("Successfully signed up");
+            console.log("successfully signed up");
+    
+        } catch (error) {
+            SetError(error.response?.data?.error || "sign up failed");
         }
     }
 

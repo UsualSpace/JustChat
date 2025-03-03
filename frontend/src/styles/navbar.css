@@ -1,0 +1,56 @@
+.navbar {
+    width: 350px;
+    height: 95vh; /* Full height */
+    position: fixed; /* Stick to left */
+    top: 0;
+    left: 0;
+    background-color: #1c1c1c;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push sign out button to bottom */
+    padding: 20px;
+    border-radius: 10px;
+    align-items: center;
+}
+  
+.navbar-title {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: -500px;
+}
+  
+.navbar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+  
+.navbar-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    text-align: center;
+}
+  
+.navbar-link:hover {
+    background-color: #333;
+}
+  
+.signout-button {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+  
+.signout-button:hover {
+    background-color: #cc0000;
+}

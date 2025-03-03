@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-//Pages and components
+//Pages
 import SignUp from "./pages/signup"
 import SignIn from "./pages/signin"
-//import NavigationBar from "./components/navbar"
+import Dashboard from "./pages/dashboard"
+import Settings from "./pages/settings"
 
 function App() {
   console.log("running app")
@@ -20,6 +21,15 @@ function App() {
             <Route
               path="/signin"
               element={<SignIn/>}
+            />
+            {/*TODO: use protected routes instead*/}
+            <Route 
+              path="/dashboard"
+              element={<Dashboard/>}
+            />
+            <Route 
+              path="/settings"
+              element={<Settings/>}
             />
           </Routes>
         </div>
