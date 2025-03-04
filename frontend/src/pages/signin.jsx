@@ -1,4 +1,4 @@
-import { Route, useNavigate } from "react-router-dom";
+import { Route, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react"
 import axios from "axios"
 
@@ -52,6 +52,12 @@ function SignIn() {
                 />
                 <button type="submit">Sign in</button>
             </form>
+            <p style={{ marginTop: "15px" }}>
+                Don't have an account?   
+                <Link to="/signup" style={{ color: "#007bff", textDecoration: "none", fontWeight: "bold" }}>
+                    Sign up
+                </Link>
+            </p>
         </div>
     );
 }

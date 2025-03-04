@@ -1,6 +1,6 @@
 const { Session } = require("./models");
 
-const AuthenticateSession = async (req, res) => {
+const AuthenticateSession = async (req, res, next) => {
     const auth_header = req.headers["authorization"];
     
     if(auth_header) {

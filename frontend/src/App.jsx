@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 //Pages
-import SignUp from "./pages/signup"
-import SignIn from "./pages/signin"
-import Dashboard from "./pages/dashboard"
-import Settings from "./pages/settings"
+import SignUp from "./pages/signup";
+import SignIn from "./pages/signin";
+import Dashboard from "./pages/dashboard";
+import Settings from "./pages/settings";
+import GroupSettings from "./pages/group_settings";
 
 function App() {
   console.log("running app")
@@ -30,6 +31,10 @@ function App() {
             <Route 
               path="/settings"
               element={<Settings/>}
+            />
+            <Route 
+              path="/group-settings"
+              element={<GroupSettings/>}
             />
           </Routes>
         </div>

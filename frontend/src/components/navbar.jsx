@@ -16,7 +16,7 @@ const NavigationBar = () => {
 
       {/* Sign Out button at the bottom */}
       {/*<button className="signout-button" onClick={onLogout}>Sign Out</button>*/}
-      <button className="signout-button">Sign Out</button>
+      <button className="btn-destructive">Sign Out</button>
     </div>
   );
 };
