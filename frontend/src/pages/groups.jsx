@@ -41,8 +41,8 @@ function Groups() {
             <div className="page-element-list">
                 {groups && groups.map((group) => (
                     <PageBar title={ group.name }>
-                        <button title="Open group chat"> o </button>
-                        <button title="Leave group chat"> x </button>
+                        <button title={`Message in ${group.name}`}> o </button>
+                        <button title={`Leave ${group.name}`}> x </button>
                     </PageBar>
                 ))}
             </div>

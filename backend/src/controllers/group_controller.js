@@ -22,7 +22,7 @@ const GetGroups = async (req, res) => {
 const CreateGroup = async (req, res) => {
   const { user_id, group_name } = req.body;
 
-  if(!group_name || !owner_id) {
+  if(!group_name || !user_id) {
     return res.status(400).json({message: "missing fields"});
   }
 

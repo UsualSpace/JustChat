@@ -6,8 +6,8 @@ import { GroupsContextProvider } from './contexts/groups_context.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <GroupContextProvider>
+    <GroupsContextProvider>
       <App />
-    </GroupContextProvider>
+    </GroupsContextProvider>
   </StrictMode>,
 )
