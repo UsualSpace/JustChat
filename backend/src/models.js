@@ -26,7 +26,7 @@ const message_schema = new mongoose.Schema({
   content: {type: String, required: true},
 }, {timestamps: true});
 
-const groupchat_schema = new mongoose.Schema({
+const group_schema = new mongoose.Schema({
   name: {type: String, required: true},
   members: [member_schema],
   banned_members:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
@@ -34,12 +34,12 @@ const groupchat_schema = new mongoose.Schema({
   censored_phrases: [{type: String}]
 }, {timestamps: true});
 
-const groupchat_invite_schema = new mongoose.Schema({
+const group_invite_schema = new mongoose.Schema({
   sender: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
   groupchat_id: {type: mongoose.Schema.Types.ObjectId, required: true}
 });
 
-const privatechat_schema = new mongoose.Schema({
+const private_group_schema = new mongoose.Schema({
   name: {type: String, required: true},
   members: [member_schema],
   messages: [message_schema]
@@ -53,16 +53,16 @@ const session_schema = new mongoose.Schema({
 
 const User = mongoose.model('User', user_schema);
 const Friendship = mongoose.model('Friendship', friendship_schema);
-const GroupChat = mongoose.model("GroupChat", groupchat_schema);
-const GroupChatInvite = mongoose.model("GroupChatInvite", groupchat_invite_schema);
-const PrivateChat = mongoose.model("PrivateChat", privatechat_schema);
+const Group = mongoose.model("Group", group_schema);
+const GroupInvite = mongoose.model("GroupInvite", group_invite_schema);
+const PrivateGroup = mongoose.model("PrivateGroup", private_group_schema);
 const Session = mongoose.model("Session", session_schema);
 
 module.exports = {
   User,
   Friendship,
-  GroupChat,
-  GroupChatInvite,
-  PrivateChat,
+  Group,
+  GroupInvite,
+  PrivateGroup,
   Session
 };

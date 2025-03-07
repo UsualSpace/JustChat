@@ -6,6 +6,7 @@ import SignIn from "./pages/signin";
 import Dashboard from "./pages/dashboard";
 import Settings from "./pages/settings";
 import GroupSettings from "./pages/group_settings";
+import Groups from "./pages/groups"
 
 function App() {
   console.log("running app")
@@ -35,6 +36,10 @@ function App() {
             <Route 
               path="/group-settings"
               element={<GroupSettings/>}
+            />
+            <Route 
+              path="/groups"
+              element={<Groups/>}
             />
           </Routes>
         </div>

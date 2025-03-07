@@ -1,17 +1,17 @@
-const { GroupChat } =  require("../models");
+const { Group } =  require("../models");
 
 //TODO: GetChatInformation
 
-const CreateChat = async (req, res) => {
-    const { owner_id, chat_name } = req.body;
+const CreateGroup = async (req, res) => {
+    const { owner_id, group_name } = req.body;
   
-    if(!chat_name || !owner_id) {
+    if(!group_name || !owner_id) {
       return res.status(400).json({message: "missing fields"});
     }
   
     try {
-      const chat = await GroupChat.create({
-        name: chat_name,
+      const group = await Group.create({
+        name: group_name,
         members: [
             {
                 user: owner_id,
@@ -19,12 +19,12 @@ const CreateChat = async (req, res) => {
             }
         ]
       });
-      res.status(200).json(chat);
+      res.status(200).json(group);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
 };
 
 module.exports = {
-    CreateChat,
+    CreateGroup,
 }
