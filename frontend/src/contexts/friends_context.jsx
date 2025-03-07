@@ -6,7 +6,7 @@ export const FriendsReducer = (state, action) => {
     switch (action.type) {
         case "CREATE_FRIEND":
             return {
-                friends: [action.payload, ...state.group]
+                friends: [action.payload, ...state.friends]
             }
         case "DELETE_FRIEND":
             return {
@@ -21,7 +21,7 @@ export const FriendsReducer = (state, action) => {
     }
 }
 
-export const FriendshipContextProvider = ({ children }) => {
+export const FriendshipsContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(FriendsReducer, {
         friends: null
         });

@@ -7,7 +7,9 @@ import Dashboard from "./pages/dashboard";
 import Settings from "./pages/settings";
 import GroupSettings from "./pages/group_settings";
 import Groups from "./pages/groups"
+import Friends from "./pages/friends"
 import NavigationBar from "./components/navbar";
+
 
 function App() {
   console.log("running app")
@@ -48,6 +50,10 @@ function App() {
             <Route 
               path="/groups"
               element={<Groups/>}
+            />
+            <Route
+              path="/friends"
+              element={<Friends/>}
             />
           </Routes>
         </div>
