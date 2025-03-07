@@ -17,8 +17,9 @@ const GetFriends = async (req, res) => {
 };
 
 const FriendRequest = async (req, res) => {
-    const { user_id, email } = req.body;
-
+    const { user_id } = req.body;
+    const { email } = req.params;
+    console.log("hello");
     
     try {
         const receiver_id = await User.findOne({email: email}).select("_id");
@@ -32,7 +33,7 @@ const FriendRequest = async (req, res) => {
             receiver: receiver_id
         })
 
-        res.status(200).json({message: "Request sent succesfully"});
+        res.status(200).json(friendship);
     } catch (error) {
         res.status(500).json({ error: "Server error"});
     }
