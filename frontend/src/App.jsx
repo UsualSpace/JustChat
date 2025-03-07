@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 
 //Pages
 import SignUp from "./pages/signup";
@@ -7,13 +7,21 @@ import Dashboard from "./pages/dashboard";
 import Settings from "./pages/settings";
 import GroupSettings from "./pages/group_settings";
 import Groups from "./pages/groups"
+import NavigationBar from "./components/navbar";
 
 function App() {
   console.log("running app")
+
+  const ShowNavBar = (location) => {
+    //const location = useLocation();
+    const excluded_paths = ["/signup", "/signin"];
+    return false;//!excluded_paths.includes(location.pathname);
+  };
+
   return (
     <div className="App">
       <BrowserRouter>
-      
+        {ShowNavBar(useLocation()) && <NavigationBar/>}
         <div className="pages">
           <Routes>
             <Route
