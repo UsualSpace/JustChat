@@ -10,6 +10,10 @@ const AuthenticateSession = async (req, res, next) => {
             if(!session) {
                 return res.status(401).json({error: "invalid session id"})
             }
+            
+            //Store parsed session id for easy use in next route.
+            req.body.user_id = session.user;
+            req.body.session_id = session_id;
         } catch (error) {
             return res.status(500).json({error: error.message});
         }

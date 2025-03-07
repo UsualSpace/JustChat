@@ -76,16 +76,16 @@ const SignOutUser = async (req, res) => {
 
 const GetAccountInfo = async(req, res) => {
   try {
-    const session_id = req.headers["authorization"].split(" ")[1];
-    const session = await Session.findById(session_id).populate("user");
-    if(!session) {
-      return res.status(401).json({error: "failed to find account info or invalid session"});
+    const user_id = req.body.user_id;
+    const user = await User.findById(user_id);
+    if(!user) {
+      return res.status(401).json({error: "user does not exist"});
     }
   
     res.status(200).json({
-      email: session.user.email, 
-      first_name: session.user.first_name, 
-      last_name: session.user.last_name
+      email: user.email, 
+      first_name: user.first_name, 
+      last_name: user.last_name
     });
   } catch (error) {
     res.status(500).json({error: error.message });
@@ -94,14 +94,9 @@ const GetAccountInfo = async(req, res) => {
 
 const UpdateAccountInfo = async(req, res) => {
   try {
-    const session_id = req.headers["authorization"].split(" ")[1];
-    const session = await Session.findById(session_id).populate("user");
-    if(!session) {
-      return res.status(200).json({error: "failed to find account info or invalid session id"});
-    }
-    
+    const user_id = req.body.user_id;
     const updates = req.body;
-    const user = await User.findByIdAndUpdate(session.user._id, updates, {
+    const user = await User.findByIdAndUpdate(user_id, updates, {
       new: true
     })
 
@@ -116,10 +111,10 @@ const UpdateAccountInfo = async(req, res) => {
   }
 };
   
-  module.exports = {
-    SignUpUser,
-    SignInUser,
-    SignOutUser,
-    GetAccountInfo,
-    UpdateAccountInfo
-  };
+module.exports = {
+  SignUpUser,
+  SignInUser,
+  SignOutUser,
+  GetAccountInfo,
+  UpdateAccountInfo
+};

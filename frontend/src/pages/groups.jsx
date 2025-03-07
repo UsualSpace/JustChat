@@ -38,6 +38,14 @@ function Groups() {
                 <button title="Create a new group"> + </button>
                 <button title="View group invites"> ! </button>
             </PageBar>
+            <div className="page-element-list">
+                {groups && groups.map((group) => (
+                    <PageBar title={ group.name }>
+                        <button title="Open group chat"> o </button>
+                        <button title="Leave group chat"> x </button>
+                    </PageBar>
+                ))}
+            </div>
         </div>
     );
 }
