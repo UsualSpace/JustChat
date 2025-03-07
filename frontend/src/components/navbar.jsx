@@ -20,7 +20,7 @@ const NavigationBar = () => {
       navigate("/signin");
 
     } catch ( error ) {
-      console.log("could not sign out.")
+      console.log(response.data.error)
     }
   };
 
