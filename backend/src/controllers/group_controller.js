@@ -2,10 +2,11 @@ const { Group } =  require("../models");
 
 const GetGroups = async (req, res) => {
   const { user_id } = req.body;
-  Group.find({ "members.user": user_id}, 'name members')
+  Group.find({ "members.user": user_id}, '_id name members')
     .then(groups => {
         // Map the results to return only the desired fields
         const group_data = groups.map(group => ({
+            id: group._id,
             name: group.name,
             members: group.members
         }));
