@@ -17,7 +17,7 @@ const GetGroups = async (req, res) => {
         console.error("Error fetching groups: ", err);
         res.status(500).json({error: "Error fetching groups"});
     });
-}
+};
 
 const CreateGroup = async (req, res) => {
   const { user_id, group_name } = req.body;
@@ -45,4 +45,4 @@ const CreateGroup = async (req, res) => {
 module.exports = {
   GetGroups,
   CreateGroup,
-}
+};

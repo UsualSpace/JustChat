@@ -3,6 +3,7 @@ const router = express.Router()
 const auth = require("./controllers/authentication_controller")
 const group = require("./controllers/group_controller")
 const middleware = require("./middleware");
+const friend = require("./controllers/friend_controller");
 
 //AUTHENTICATION RELATED ROUTES.
 router.get("/auth/account-info", middleware.AuthenticateSession, auth.GetAccountInfo); //Get user profile information.
@@ -22,9 +23,10 @@ router.delete("/groups/:group-id/censored-phrases/:phrase", middleware.Authentic
 router.delete("/groups/:group-id/:message-id", middleware.AuthenticateSession, ); //Delete a message with messageID from the chat with chatID.  
 
 //FRIENDSHIP RELATED ROUTES.
-//router.get("/friends/:userID"); //Get all friends of a user with userID.
+router.get("/friends", middleware.AuthenticateSession, friend.GetFriends); //Get all friends of a user
+router.post("/friends/:email", middleware.AuthenticateSession, friend.FriendRequest);
+router.patch("/friends", middleware.AuthenticateSession, friend.FriendRequestAccept);
 
-//router.post("/friends/:email/")
 
 
 module.exports = router

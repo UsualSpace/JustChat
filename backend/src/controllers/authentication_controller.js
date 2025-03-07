@@ -33,7 +33,7 @@ const SignInUser = async (req, res) => {
     console.log("found user");
     //Naive but for the scope of this project it should be fine.
     if(credentials.password !== password) {
-      return res.status(401).json({error: "invalid credentials"})
+      return res.status(401).json({error: "invalid credentials"});
     }
     console.log("pass confirmed");
     //At this point, passwords matched so generate a session object and return 
