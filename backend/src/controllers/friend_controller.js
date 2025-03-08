@@ -1,25 +1,40 @@
 const { Friendship, User } = require("../models");
 
+//helper function
+const GetFriend = (friendship, user) => {
+    let friend;
+    if (friendship.requester.email === user.email) {
+        friend = friendship.receiver;
+    } else {
+        friend = friend.requester;
+    }
+    return friend;
+};
+//
+
 const GetFriends = async (req, res) => {
-    const { user_id } = req.body;
+    const { user } = req.body;
     try {
         const friendships = await Friendship.find({
-            $or: [{ requester: user_id }, { receiver: user_id }], 
+            $or: [{ requester: user._id }, { receiver: user._id }], 
             status: "accepted"
-        }).populate("requester receiver"); // Populate user details if needed
+        }).populate("requester receiver");
         if(!friendships) {
-            return res.status(400).json({error: "Failed to grab friends"});
+            return res.status(400).json({error: "failed to grab friends"});
         }
-        res.json(friendships);
+
+        const friends = friendships.map(friendship => (GetFriend(friendship, user)));
+
+        res.json(friends);
     } catch (error) {
-        res.status(500).json({ error: "Server error" });
+        res.status(500).json({ error: "Server error get friends" });
     }
 };
 
 const FriendRequest = async (req, res) => {
-    const { user_id } = req.body;
+    const user = req.body.user;
     const { email } = req.params;
-    console.log("hello");
+    console.log("friend request called");
     
     try {
         const receiver_id = await User.findOne({email: email}).select("_id");
@@ -29,13 +44,20 @@ const FriendRequest = async (req, res) => {
         }
 
         const friendship = await Friendship.create({
-            requester: user_id,
-            receiver: receiver_id
+            requester: user._id,
+            receiver: receiver_id._id
         })
 
-        res.status(200).json(friendship);
+        console.log("friendship awaited");
+
+        if(!friendship) {
+            return res.status(500).json({error: "failed to create friendship document"});
+        }
+
+        console.log("friend success");
+        res.status(200);//.json(GetFriend(friendship, user));
     } catch (error) {
-        res.status(500).json({ error: "Server error"});
+        res.status(500).json({ error: "Server error friend request"});
     }
 };
 
@@ -52,7 +74,7 @@ const FriendRequestAccept = async (req, res) => {
 
         res.status(200).json({message: "Accepted friend request"});
     } catch (error) {
-        res.status(500).json({ error: "Server error"});
+        res.status(500).json({ error: "Server error friend reques accept"});
     }
 }
 

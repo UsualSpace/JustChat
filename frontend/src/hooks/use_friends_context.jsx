@@ -8,7 +8,5 @@ export const UseFriendsContext = () => {
         throw Error('UseFriendsContext must be used inside an FriendshipContextPRovider')
     }
 
-
-
     return context
 }

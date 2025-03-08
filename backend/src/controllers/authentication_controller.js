@@ -60,14 +60,14 @@ const SignOutUser = async (req, res) => {
   }
 
   try {
-    //Find user document with email and grab email, password, and user id.
+    //find user document with email and grab email, password, and user id.
     const session = await Session.findByIdAndDelete(session_id);
 
-    //Naive but for the scope of this project it should be fine.
     if(!session) {
       return res.status(401).json({error: "invalid session id"});
     }
 
+    console.log("reached signout");
     res.status(200).json({error: "successfully signed out"});
   } catch (error) {
     res.status(500).json({error: error.message });
@@ -76,7 +76,7 @@ const SignOutUser = async (req, res) => {
 
 const GetAccountInfo = async(req, res) => {
   try {
-    const user_id = req.body.user_id;
+    const user_id = req.body.user._id;
     const user = await User.findById(user_id);
     if(!user) {
       return res.status(401).json({error: "user does not exist"});
@@ -94,7 +94,7 @@ const GetAccountInfo = async(req, res) => {
 
 const UpdateAccountInfo = async(req, res) => {
   try {
-    const user_id = req.body.user_id;
+    const user_id = req.body.user._id;
     const updates = req.body;
     const user = await User.findByIdAndUpdate(user_id, updates, {
       new: true

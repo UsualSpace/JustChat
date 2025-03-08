@@ -24,9 +24,7 @@ export const FriendsReducer = (state, action) => {
 export const FriendshipsContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(FriendsReducer, {
         friends: null
-        });
-
-
+    });
 
     return (
         <friends_context.Provider value={{...state, dispatch}}>

@@ -1,12 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Route, Link, useNavigate } from "react-router-dom";
 import "../styles/navbar.css"; // Import the CSS file
+import axios from "axios"
 
 const NavigationBar = () => {
 
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const HandleSignOut = async () => {
-
     try {
       const session_id = localStorage.getItem("session_id");
       const response = await axios.delete("http://localhost:4000/api/auth/signout", {
@@ -20,7 +20,7 @@ const NavigationBar = () => {
       navigate("/signin");
 
     } catch ( error ) {
-      console.log(response.data.error)
+      console.log(error.response?.data);
     }
   };
 

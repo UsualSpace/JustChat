@@ -2,9 +2,6 @@ import { Route, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react"
 import axios from "axios"
 
-//Import below if we want to renavigate to sign up page.
-//import { Link } from "react-router-dom"
-
 function SignIn() {
     const [email, SetEmail] = useState("");
     const [password, SetPassword] = useState("");

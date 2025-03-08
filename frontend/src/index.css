@@ -73,5 +73,9 @@ button:hover {
     border-left: 2px solid #333;
 }
 
+.btn-destructive:hover {
+    background: red
+}
+
 
 

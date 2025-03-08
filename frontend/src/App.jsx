@@ -14,50 +14,46 @@ import NavigationBar from "./components/navbar";
 function App() {
   console.log("running app")
 
-  // const ShowNavBar = (location) => {
-  //   //const location = useLocation();
-  //   const excluded_paths = ["/signup", "/signin"];
-  //   return false;//!excluded_paths.includes(location.pathname);
-  // };
-
   return (
     <div className="App">
-      <BrowserRouter>
-        {/*ShowNavBar(useLocation()) && <NavigationBar/>*/}
-        <div className="pages">
-          <Routes>
-            <Route
-              path="/signup"
-              element={<SignUp/>}
-            />
-            <Route
-              path="/signin"
-              element={<SignIn/>}
-            />
-            {/*TODO: use protected routes instead*/}
-            <Route 
-              path="/dashboard"
-              element={<Dashboard/>}
-            />
-            <Route 
-              path="/settings"
-              element={<Settings/>}
-            />
-            <Route 
-              path="/group-settings"
-              element={<GroupSettings/>}
-            />
-            <Route 
-              path="/groups"
-              element={<Groups/>}
-            />
-            <Route
-              path="/friends"
-              element={<Friends/>}
-            />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      {(() => {
+        const location = useLocation();
+        const excluded_paths = ["/signup", "/signin"];
+        return !excluded_paths.includes(location.pathname);
+      })() && <NavigationBar />}
+      <div className="pages">
+        <Routes>
+          <Route
+            path="/signup"
+            element={<SignUp/>}
+          />
+          <Route
+            path="/signin"
+            element={<SignIn/>}
+          />
+          {/*TODO: use protected routes instead*/}
+          <Route 
+            path="/dashboard"
+            element={<Dashboard/>}
+          />
+          <Route 
+            path="/settings"
+            element={<Settings/>}
+          />
+          <Route 
+            path="/group-settings"
+            element={<GroupSettings/>}
+          />
+          <Route 
+            path="/groups"
+            element={<Groups/>}
+          />
+          <Route
+            path="/friends"
+            element={<Friends/>}
+          />
+        </Routes>
+      </div>
     </div>
   )
 }

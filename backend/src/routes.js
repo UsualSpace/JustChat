@@ -12,12 +12,13 @@ router.post("/auth/signin", auth.SignInUser); //Login an existing user.
 router.patch("/auth/account-info", middleware.AuthenticateSession, auth.UpdateAccountInfo);
 router.delete("/auth/signout", middleware.AuthenticateSession, auth.SignOutUser); //Signout a signed in in user.
 
-//CHAT RELATED ROUTES.
+//GROUP RELATED ROUTES.
 router.get("/groups", middleware.AuthenticateSession, group.GetGroups); //get a list of all group chats and general info that the user with the valid session is a member of.
 router.get("/groups/:group-id/messages", middleware.AuthenticateSession, ); //Get all messages in a chat with.
 router.post("/groups", group.CreateGroup); //Post a new chat.
 router.post("/groups/:group-id/message", ); //Post a message to the chat with with chatID.    
 router.post("/groups/:group-id/censored-phrases/:phrase", middleware.AuthenticateSession, ); //Post a new censored phrase in the chat with chatID. 
+
 router.delete("/groups/:group-id", middleware.AuthenticateSession, ); //Delete an existing chat with chatID.
 router.delete("/groups/:group-id/censored-phrases/:phrase", middleware.AuthenticateSession, ); //Delete an existing censored phrase in the chat with chatID.
 router.delete("/groups/:group-id/:message-id", middleware.AuthenticateSession, ); //Delete a message with messageID from the chat with chatID.  
