@@ -1,0 +1,25 @@
+:root{ 
+    --rounding: 25px;
+    --base-clr: #11121a;
+    --line-clr: #42434a;
+    --hover-clr: #222533;
+    --text-clr: #e6e6ef;
+    --accent-clr: #5e63ff;
+    --secondary-text-clr: #b0b3c1;
+}
+
+
+
+
+.page-bar {
+    background-color: #C3B1E1;
+    height: 95vh;
+    width: 1200px;
+    border-radius: var(--rounding);
+    margin-left: 250px;
+}
+
+.page-bar-title {
+    padding-left: 25px;
+    padding-top: 10px;
+}
