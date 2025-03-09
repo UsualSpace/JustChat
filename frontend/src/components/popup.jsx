@@ -10,10 +10,10 @@ const PopUp = ({ button_label, children }) => {
             {is_open && (
                 <div className="popup-overlay">
                     <div className="popup-content">
+                        { children }
                         <div className="popup-close">
                             <button className="btn-destructive" onClick={() => SetIsOpen(false)}>Close</button>
                         </div>
-                        { children }
                     </div>
                 </div>
             )}

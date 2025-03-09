@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { GetAuthHeader } from "../helpers";
 import axios from "axios"
 
 function Settings() {
@@ -10,12 +11,7 @@ function Settings() {
     useEffect(() => {
         const GetAccountData = async () => {
             try {
-                const session_id = localStorage.getItem("session_id");
-                const response = await axios.get("http://localhost:4000/api/auth/account-info", {
-                    headers: {
-                        "authorization": `Bearer ${session_id}`
-                    }
-                });
+                const response = await axios.get("http://localhost:4000/api/auth/account-info", GetAuthHeader());
                 SetEmail(response.data.email);
                 SetFirst(response.data.first_name);
                 SetLast(response.data.last_name);
@@ -32,15 +28,11 @@ function Settings() {
         event.preventDefault();
         const account = {first_name, last_name};
         try {
-            const session_id = localStorage.getItem("session_id");
-            const response = await axios.patch("http://localhost:4000/api/auth/account-info", account, {
-                headers: {
-                    "authorization": `Bearer ${session_id}`
-                }
-            });
+            const response = await axios.patch("http://localhost:4000/api/auth/account-info", account, GetAuthHeader());
             SetFirst(response.data.first_name);
             SetLast(response.data.last_name);
             SetError(null);
+            
         } catch (error) {
             SetError(error.response?.data?.error || "failed to update account info");
         }

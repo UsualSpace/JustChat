@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { UseFriendsContext } from "../hooks/use_friends_context";
+import { GetAuthHeader } from "../helpers";
 import PopUp from "../components/popup";
 
 import axios from "axios"
@@ -14,12 +15,7 @@ function Friends() {
     useEffect(() => {
         const FetchFriends = async () => {
             try {
-                const session_id = localStorage.getItem("session_id");
-                const response = await axios.get("http://localhost:4000/api/friends", {
-                    headers: {
-                        "authorization": `Bearer ${session_id}`
-                    }
-                });
+                const response = await axios.get("http://localhost:4000/api/friends", GetAuthHeader());
 
                 dispatch({
                     type: "SET_FRIENDS",
@@ -37,15 +33,24 @@ function Friends() {
     const HandleFriendRequest = async (event) => {
         event.preventDefault();
         try {
-            const session_id = localStorage.getItem("session_id");
-            const response = await axios.post(`http://localhost:4000/api/friends/${email}`, {}, {
-                headers: {
-                    "authorization": `Bearer ${session_id}`
-                }
-            });
+            const response = await axios.post(`http://localhost:4000/api/friends/${email}`, {}, GetAuthHeader());
 
             dispatch({
                 type: "CREATE_FRIEND",
+                payload: response.data
+            });
+
+        } catch ( error ) {
+            console.log("Axios Error:", error.response ? error.response.data : error.message);
+        }
+    }
+
+    const HandleUnfriend = async (friend) => {
+        try {
+            const response = await axios.delete(`http://localhost:4000/api/friends/${friend.friendship_id}`, GetAuthHeader());
+
+            dispatch({
+                type: "DELETE_FRIEND",
                 payload: response.data
             });
 
@@ -74,9 +79,9 @@ function Friends() {
             </PageBar>
             <div className="page-element-list">
                 {friends && friends.map((friend) => (
-                    <PageBar key={ friend._id } title={ `${friend.first_name} ${friend.last_name}` } >
-                        <button title={`Message ${friend.first_name}`}> o </button>
-                        <button title={`Unfriend ${friend.first_name}`}> x </button>
+                    <PageBar key={ friend.friendship_id } title={ `${friend.first_name} ${friend.last_name}` } >
+                        <button title={`Message ${friend.first_name}`}> Message </button>
+                        <button className="btn-destructive" onClick={() => HandleUnfriend(friend)} title={`Unfriend ${friend.first_name}`}> Unfriend </button>
                     </PageBar>
                 ))}
             </div>

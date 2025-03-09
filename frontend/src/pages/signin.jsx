@@ -1,6 +1,6 @@
 import { Route, Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function SignIn() {
     const [email, SetEmail] = useState("");
@@ -20,7 +20,7 @@ function SignIn() {
             console.log("successfully signed in");
             
             //Store session id from server locally for protecting routes/future user authentication.
-            localStorage.setItem("session_id", response.data.session_id);
+            sessionStorage.setItem("session_id", response.data.session_id);
 
             //Force navigate to the main dashboard.
             navigate("/dashboard");

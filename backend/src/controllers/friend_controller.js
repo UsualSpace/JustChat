@@ -2,12 +2,29 @@ const { Friendship, User } = require("../models");
 
 //helper function
 const GetFriend = (friendship, user) => {
+    console.log(user.email);
+    console.log(friendship.requester.email);
+    console.log(friendship.receiver.email);
     let friend;
     if (friendship.requester.email === user.email) {
-        friend = friendship.receiver;
+        friend = {
+            first_name: friendship.receiver.first_name, 
+            last_name: friendship.receiver.last_name, 
+            email: friendship.receiver.email,
+            is_receiver: false
+        };
+        console.log(`Sent back receiver data ${friend.first_name}`);
     } else {
-        friend = friend.requester;
+        friend = {
+            first_name: friendship.requester.first_name, 
+            last_name: friendship.requester.last_name, 
+            email: friendship.requester.email,
+            is_receiver: true
+        };
+        console.log(`Sent back requester data ${friend.first_name}`);
     }
+    friend.friendship_id = friendship._id;
+    friend.friendship_status = friendship.status;
     return friend;
 };
 //
@@ -23,11 +40,13 @@ const GetFriends = async (req, res) => {
             return res.status(400).json({error: "failed to grab friends"});
         }
 
+        console.log(friendships);
+
         const friends = friendships.map(friendship => (GetFriend(friendship, user)));
 
-        res.json(friends);
+        res.status(200).json(friends);
     } catch (error) {
-        res.status(500).json({ error: "Server error get friends" });
+        res.status(500).json({ error: `Server error get friends: ${error}` });
     }
 };
 
@@ -74,7 +93,19 @@ const FriendRequestAccept = async (req, res) => {
 
         res.status(200).json({message: "Accepted friend request"});
     } catch (error) {
-        res.status(500).json({ error: "Server error friend reques accept"});
+        res.status(500).json({ error: "Server error friend request accept"});
+    }
+};
+
+const Unfriend = async (req, res) => {
+    const { friendship_id } = req.params;
+    try {
+        const friendship = await Friendship.findByIdAndDelete(friendship_id);
+        res.status(200).json({
+            friendship_id: friendship._id
+        });
+    } catch (error) {
+        res.status(500).json({ error: "Server error unfriend"});
     }
 }
 
@@ -82,4 +113,5 @@ module.exports = {
     GetFriends,
     FriendRequest,
     FriendRequestAccept,
+    Unfriend
 };

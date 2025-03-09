@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 
 function SignUp() {
@@ -9,6 +9,8 @@ function SignUp() {
     const [last_name, SetLast] = useState("");
     const [confirm, SetConfirm] = useState("");
     const [error, SetError] = useState(null);
+
+    const navigate = useNavigate();
 
     const HandleSubmit = async (event) => {
         event.preventDefault();
@@ -23,6 +25,15 @@ function SignUp() {
             SetConfirm("");
             SetError(null);
             console.log("successfully signed up");
+
+            const session = await axios.post("http://localhost:4000/api/auth/signin", { email, password });
+            console.log("successfully signed in");
+            
+            //Store session id from server locally for protecting routes/future user authentication.
+            sessionStorage.setItem("session_id", response.data.session_id);
+
+            //Force navigate to the main dashboard.
+            navigate("/dashboard");
     
         } catch (error) {
             SetError(error.response?.data?.error || "sign up failed");

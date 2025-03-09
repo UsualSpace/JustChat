@@ -1,18 +1,12 @@
 const { Group } =  require("../models");
 
 const GetGroups = async (req, res) => {
-  const { user_id } = req.body;
-  Group.find({ "members.user": user_id}, '_id name members')
+  const { user } = req.body;
+  Group.find({ "members.user": user._id}, '_id name members')
+    .populate("members")
+    .populate("members.user", "_id first_name last_name email")
     .then(groups => {
-        // Map the results to return only the desired fields
-        const group_data = groups.map(group => ({
-            id: group._id,
-            name: group.name,
-            members: group.members
-        }));
-        
-        res.status(200).json(group_data);
-        //console.log(group_data); // Array of objects containing the selected fields
+      res.status(200).json(groups);
     })
     .catch(err => {
         console.error("Error fetching groups: ", err);
@@ -21,9 +15,9 @@ const GetGroups = async (req, res) => {
 };
 
 const CreateGroup = async (req, res) => {
-  const { user_id, group_name } = req.body;
+  const { user, group_name } = req.body;
 
-  if(!group_name || !user_id) {
+  if(!group_name || !user) {
     return res.status(400).json({message: "missing fields"});
   }
 
@@ -32,18 +26,45 @@ const CreateGroup = async (req, res) => {
       name: group_name,
       members: [
           {
-              user: user_id,
+              user: user._id,
               role: "owner"
           }
       ]
     });
     res.status(200).json(group);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json(`Server error create group ${error.message}`);
+  }
+};
+
+const DeleteGroup = async (req, res) => {
+  const { user } = req.body;
+  const { group_id } = req.params;
+
+  if(!group_id || !user) {
+    return res.status(400).json({message: "missing fields"});
+  }
+
+  try {
+    const group = await Group.findById(group_id);
+    console.log(group.members[0]);
+    if(!group.members.some((member) => String(member.user) === String(user._id) && member.role == "owner")) {
+      return res.status(400).json("delete not authorized for this user");
+    }
+
+    const group_delete = await Group.findByIdAndDelete(group_id);
+    if(!group_delete) {
+      res.status(500).json("Server error: failed to delete group");
+    }
+
+    res.status(200).json(group_id);
+  } catch (error) {
+    res.status(500).json(`Server error create group ${error.message}`);
   }
 };
 
 module.exports = {
   GetGroups,
   CreateGroup,
+  DeleteGroup
 };

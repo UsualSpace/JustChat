@@ -9,20 +9,26 @@ import GroupSettings from "./pages/group_settings";
 import Groups from "./pages/groups"
 import Friends from "./pages/friends"
 import NavigationBar from "./components/navbar";
+import Messaging from "./pages/messaging";
 
 
 function App() {
-  console.log("running app")
+  //console.log("running app")
 
   return (
     <div className="App">
       {(() => {
         const location = useLocation();
-        const excluded_paths = ["/signup", "/signin"];
+        const excluded_paths = ["/signup", "/signin", "/"];
         return !excluded_paths.includes(location.pathname);
       })() && <NavigationBar />}
       <div className="pages">
         <Routes>
+          {/*Default to signup page*/}
+          <Route
+            path="/"
+            element={<SignUp/>}
+          />
           <Route
             path="/signup"
             element={<SignUp/>}
@@ -40,17 +46,21 @@ function App() {
             path="/settings"
             element={<Settings/>}
           />
-          <Route 
-            path="/group-settings"
-            element={<GroupSettings/>}
+          <Route
+            path="/friends"
+            element={<Friends/>}
           />
           <Route 
             path="/groups"
             element={<Groups/>}
           />
+          <Route 
+            path="/groups/:group_id/settings"
+            element={<GroupSettings/>}
+          />
           <Route
-            path="/friends"
-            element={<Friends/>}
+            path="/groups/:group_id/messaging"
+            element={<Messaging/>}
           />
         </Routes>
       </div>

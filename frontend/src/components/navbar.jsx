@@ -8,7 +8,7 @@ const NavigationBar = () => {
 
   const HandleSignOut = async () => {
     try {
-      const session_id = localStorage.getItem("session_id");
+      const session_id = sessionStorage.getItem("session_id");
       const response = await axios.delete("http://localhost:4000/api/auth/signout", {
           headers: {
               "authorization": `Bearer ${session_id}`

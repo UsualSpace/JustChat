@@ -1,71 +1,64 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { useEffect, useState } from "react";
+import { UseGroupsContext } from "../hooks/use_groups_context";
+import { GetAuthHeader } from "../helpers";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+
+//components
+import PageBar from "../components/pagebar";
+import PopUp from "../components/popup";
 
 function GroupSettings() {
-    
+    const { groups, dispatch } = UseGroupsContext();
+    const { group_id } = useParams();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        const GetGroupData = async () => {
-            try {
-                const session_id = localStorage.getItem("session_id");
-                const response = await axios.get("http://localhost:4000/api/auth/account-info", {
-                    headers: {
-                        "authorization": `Bearer ${session_id}`
-                    }
-                });
-                
-                SetError(null);
-            } catch (error) {
-                SetError(error.response?.data?.error || "failed to fetch account data");
-            }
-        };
+    console.log(groups);
+    const group = groups.find(group => group._id === group_id);
+    console.log(group);
 
-        GetGroupData();
-    }, []);
+    if(!group) {
+        console.log("group data not found");
+    }
 
-    const HandleSubmit = async (event) => {
-        event.preventDefault();
-        
-        try {
-            const session_id = localStorage.getItem("session_id");
-            const response = await axios.patch("http://localhost:4000/api/auth/account-info", account, {
-                headers: {
-                    "authorization": `Bearer ${session_id}`
-                }
-            });
+    // useEffect(() => {
+    //     const GetGroupData = () => {
             
-            SetError(null);
-        } catch (error) {
-            SetError(error.response?.data?.error || "failed to update account info");
+    //     };
+
+    //     GetGroupData();
+    // }, []);
+
+    const HandleDeleteGroup = async () => {
+        try {
+            const response = await axios.delete(`http://localhost:4000/api/groups/${group._id}`, GetAuthHeader());
+            dispatch({
+                type: "DELETE_GROUP",
+                payload: response.data
+            });
+            navigate("/groups");
+        } catch ( error ) {
+            console.log("Axios Error:", error.response ? error.response.data : error.message);
         }
     };
 
     return (
         <div className="page-background">
-            <h1>Settings</h1>
-            <h2>Account Details</h2>
-            <p><strong>Email:</strong> {email}</p>
-            <br></br>
-            <form onSubmit={HandleSubmit}>
-                <label>First Name:</label>
-                <input
-                    type="text"
-                    value={first_name}
-                    onChange={(event) => SetFirst(event.target.value)}
-                    placeholder="First name"
-                />
-                <label>Last Name:</label>
-                <input
-                    type="text"
-                    value={last_name}
-                    onChange={(event) => SetLast(event.target.value)}
-                    placeholder="Last name"
-                />
-                <button type="submit">Update</button>
-            </form>
+            <PageBar title={`${group.name} Settings`}></PageBar>
+            {/* Potentially allow group name updates */}
+
+            <h1>Members:</h1>
+            <div className="page-element-list">
+                {group && group.members.map((member) => (
+                    <PageBar key={member.user._id} title={ "[" + member.role + "] " + member.user.first_name + " " + member.user.last_name + " (" + member.user.email + ")"}>
+                    </PageBar>
+                ))}
+            </div>
+
+            <button className="btn-destructive" onClick={HandleDeleteGroup}>Delete Group</button>
 
             {/* Success/Error Message */}
-            {error && <p>{error}</p>}
+            {/*error && <p>{error}</p>*/}
         </div>
     );
 }

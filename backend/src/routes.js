@@ -6,28 +6,27 @@ const middleware = require("./middleware");
 const friend = require("./controllers/friend_controller");
 
 //AUTHENTICATION RELATED ROUTES.
-router.get("/auth/account-info", middleware.AuthenticateSession, auth.GetAccountInfo); //Get user profile information.
-router.post("/auth/signup", auth.SignUpUser); //Post a new user account.
-router.post("/auth/signin", auth.SignInUser); //Login an existing user.
+router.get("/auth/account-info", middleware.AuthenticateSession, auth.GetAccountInfo); //get user profile information.
+router.post("/auth/signup", auth.SignUpUser); //post a new user account.
+router.post("/auth/signin", auth.SignInUser); //sign in an existing user.
 router.patch("/auth/account-info", middleware.AuthenticateSession, auth.UpdateAccountInfo);
-router.delete("/auth/signout", middleware.AuthenticateSession, auth.SignOutUser); //Signout a signed in in user.
+router.delete("/auth/signout", middleware.AuthenticateSession, auth.SignOutUser); //sign out a signed in in user.
 
 //GROUP RELATED ROUTES.
 router.get("/groups", middleware.AuthenticateSession, group.GetGroups); //get a list of all group chats and general info that the user with the valid session is a member of.
-router.get("/groups/:group-id/messages", middleware.AuthenticateSession, ); //Get all messages in a chat with.
-router.post("/groups", group.CreateGroup); //Post a new chat.
-router.post("/groups/:group-id/message", ); //Post a message to the chat with with chatID.    
-router.post("/groups/:group-id/censored-phrases/:phrase", middleware.AuthenticateSession, ); //Post a new censored phrase in the chat with chatID. 
+router.get("/groups/:group-id/messages", middleware.AuthenticateSession, ); //pet all messages in a chat with.
+router.post("/groups", middleware.AuthenticateSession, group.CreateGroup); //post a new chat.
+router.post("/groups/:group-id/message", ); //post a message to the chat with with chatID.    
+router.post("/groups/:group-id/censored-phrases/:phrase", middleware.AuthenticateSession, ); //post a new censored phrase in the chat with chatID. 
 
-router.delete("/groups/:group-id", middleware.AuthenticateSession, ); //Delete an existing chat with chatID.
-router.delete("/groups/:group-id/censored-phrases/:phrase", middleware.AuthenticateSession, ); //Delete an existing censored phrase in the chat with chatID.
-router.delete("/groups/:group-id/:message-id", middleware.AuthenticateSession, ); //Delete a message with messageID from the chat with chatID.  
+router.delete("/groups/:group_id", middleware.AuthenticateSession, group.DeleteGroup); //delete an existing chat with chatID.
+router.delete("/groups/:group_id/censored-phrases/:phrase", middleware.AuthenticateSession, ); //delete an existing censored phrase in the chat with chatID.
+router.delete("/groups/:group_id/:message_id", middleware.AuthenticateSession, ); //delete a message with messageID from the chat with chatID.  
 
 //FRIENDSHIP RELATED ROUTES.
-router.get("/friends", middleware.AuthenticateSession, friend.GetFriends); //Get all friends of a user
-router.post("/friends/:email", middleware.AuthenticateSession, friend.FriendRequest);
-router.patch("/friends", middleware.AuthenticateSession, friend.FriendRequestAccept);
-
-
+router.get("/friends", middleware.AuthenticateSession, friend.GetFriends); //get all friends of a user
+router.post("/friends/:email", middleware.AuthenticateSession, friend.FriendRequest); //send a friend request to a user with email.
+router.patch("/friends", middleware.AuthenticateSession, friend.FriendRequestAccept); //accept a friend request.
+router.delete("/friends/:friendship_id", middleware.AuthenticateSession, friend.Unfriend); //unfriend a friend.
 
 module.exports = router
