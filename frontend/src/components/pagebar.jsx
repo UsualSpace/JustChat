@@ -1,3 +1,5 @@
+import "../styles/pagebar.css"
+
 const PageBar = ({ title, children }) => {
     return (
         <div className="page-bar">
