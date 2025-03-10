@@ -1,20 +1,22 @@
+
+/*
 :root {
-    --rounding: 25px; /* Constant rounding size for border-radius*/
+    --rounding: 25px; /* Constant rounding size for border-radius
 }
 
 
 .navbar {
     width: 250px;
-    height: 95vh; /* Full height */
-    position: fixed; /* Stick to left */
+    height: 95vh; /* Full height 
+    position: fixed; /* Stick to left 
     top: 0;
     left: 0;
-    /*background: linear-gradient(180deg, #491586, #000000, #491586)*/
-    background-color: #C3B1E1;/*#1c1c1c;*/
+    /*background: linear-gradient(180deg, #491586, #000000, #491586)
+    background-color: #C3B1E1;/*#1c1c1c;
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Push sign out button to bottom */
+    justify-content: space-between; /* Push sign out button to bottom 
     padding: 20px;
     align-items: center;
     border-radius: var(--rounding);
@@ -62,3 +64,4 @@
 .signout-button:hover {
     background-color: #cc0000;
 }
+*/
