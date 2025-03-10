@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useLayoutEffect } from "react"
 import { UseGroupsContext } from "../hooks/use_groups_context";
 import { GetAuthHeader } from "../helpers";
 import { io } from "socket.io-client";
@@ -24,6 +24,8 @@ const Messaging = () => {
         console.log("group data not found");
     }
 
+    const bottom_ref = useRef(null);
+
     useEffect(() => {
         const FetchMessages = async () => {
             try {
@@ -36,7 +38,12 @@ const Messaging = () => {
         };
 
         FetchMessages();
+        //bottom_ref.current?.scrollIntoView({ behavior: "smooth" }, 100);
     }, [group_id]);
+
+    useLayoutEffect(() => {
+        bottom_ref.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     useEffect(() => {
         socket.emit("join_group", {
@@ -71,6 +78,7 @@ const Messaging = () => {
             socket.emit("send_message", message);
             
             SetNewMessage("");
+            //bottom_ref.current?.scrollIntoView({ behavior: "smooth" });
         } catch ( error ) {
             console.log("Axios Error:", error.response ? error.response.data : error.message);
         }
@@ -98,16 +106,15 @@ const Messaging = () => {
                     {/*TODO: add a way to get to settings here?*/}
                 </PageBar>
                 <div className="page-element-list">
-                    <div className="scrollable-container">
-                        {messages && messages.map((msg) => (
-                            <div key={msg._id} className="message">
-                                <h2>{msg.sender + " @ " + new Date(msg.createdAt).toLocaleString()}</h2>
-                                <PageBar title={msg.content}>
-                                    <button className="btn-destructive" onClick={() => HandleDeleteMessage(msg)}> Delete Message </button>
-                                </PageBar>
-                            </div>
-                        ))}
-                    </div>
+                    {messages && messages.map((msg) => (
+                        <div key={msg._id} className={sessionStorage.getItem("email") === msg.sender_email ? "msg-self" : "msg-other"}>
+                            <h2>{msg.sender + " @ " + new Date(msg.createdAt).toLocaleString()}</h2>
+                            <PageBar title={msg.content}>
+                                <button className="btn-destructive" onClick={() => HandleDeleteMessage(msg)}> Delete Message </button>
+                            </PageBar>
+                        </div>
+                    ))}
+                    <div ref={bottom_ref}/>
                 </div>
                 <div className="message-bar">
                     <form onSubmit={HandleSendMessage}>

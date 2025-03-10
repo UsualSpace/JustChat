@@ -32,6 +32,10 @@ function SignUp() {
             //Store session id from server locally for protecting routes/future user authentication.
             sessionStorage.setItem("session_id", response.data.session_id);
 
+            //Not sure how okay this is, but we need a way to differentiate between sender and recipient when displaying group messages,
+            //especially when loading a chat and fetching the chat history.
+            sessionStorage.setItem("email", email);
+
             //Force navigate to the main dashboard.
             navigate("/dashboard");
     

@@ -77,6 +77,7 @@ const GetMessages = async (req, res) => {
       const { _id, createdAt, content } = message;
       const modified_message = { _id, createdAt, content };
       modified_message.sender = message.sender.first_name + " " + message.sender.last_name;
+      modified_message.sender_email = message.sender.email;
       return modified_message;
     });
     console.log(JSON.stringify(modified_messages, null, 2));

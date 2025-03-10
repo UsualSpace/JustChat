@@ -86,9 +86,10 @@ button:hover {
 :root {
     --primary-color: white;
     --opacity-level0: 0.5;
-    --background-blur: backdrop-filter: blur(10px); /* Blurs the background behind the container */
-    --rounding: 20px;
+    --background-blur: 10px; /* Blurs the background behind the container */
+    --rounding: 50px;
     --margin: 45px;
+    --msg-font-size: 10px;
     --background1: url('./assets/justchatback1.jpg');
     --background2: url('./assets/justchatback2.jpg');
     --background3: url('./assets/justchatback3.jpg');
@@ -97,7 +98,7 @@ button:hover {
 }
 
 * {
-    font-family: Arial,  serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 html, body {
@@ -114,7 +115,7 @@ html, body {
     grid-column-gap:30px;
     height: 100vh;
     width: 100vw;
-    background-image: var(--background2);
+    background-image: var(--background3);
     background-size: cover;
     background-position: center;
 }
@@ -128,7 +129,7 @@ html, body {
     background-color: rgba(255, 255, 255, 0.7);
     padding-left: 10px;
     padding-right: 10px;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(25px);
 }
 
 .navbar-title {
@@ -154,18 +155,19 @@ html, body {
 }
 
 .navbar-link:hover {
-    background-color: #333;
+    background-color: white;
 }
 
 .btn-destructive {
-    background-color: #ff4444;
+    background-color: gray;
     color: black;
     border: none;
     padding: 12px;
-    border-radius: 5px;
+    border-radius: var(--rounding);
     cursor: pointer;
     width: 100%;
     font-size: 16px;
+    transition: background 0.3s;
 }
   
 .btn-destructive:hover {
@@ -173,17 +175,56 @@ html, body {
     font: 10px;
 }
 
+.btn-constructive {
+    background-color: #ff4444;
+    color: black;
+    border: none;
+    padding: 12px;
+    border-radius: var(--rounding);
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+  
+.btn-constructive:hover {
+    background-color: green;
+    font: 10px;
+}
 
 .page-background { 
     grid-area: 1 / 2 / 2 / 3; 
-    background-color: brown;
     border-radius: var(--rounding);
     margin-top: var(--margin);
     margin-right:var(--margin);
     margin-bottom: var(--margin);
     background-color: rgba(255, 255, 255, 0.7);
     padding: 10px;
-    backdrop-filter: blur(2px); /* Apply blur effect to the background image */
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.0);
+    overflow: hidden;
+}
+
+.msg-self {
+    margin-left: 75%;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: var(--rounding);
+    font-size: var(--msg-font-size);
+    backdrop-filter: blur(10px);
+    overflow: hidden
+}
+
+.msg-other {
+    margin-right: 75%;
+    background-color: rgba(255, 255, 255, 0.7);
+    font-size: var(--msg-font-size);
+    border-radius: var(--rounding);
+    backdrop-filter: blur(10px);
+    overflow: hidden
+}
+
+.page-element-list {
+    height: 70vh;
+    overflow-y:auto;
 }
 
 

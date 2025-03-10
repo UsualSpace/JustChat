@@ -82,6 +82,7 @@ mongoose.connect(process.env.MONGO_URI)
                     console.log(createdAt);
                     const modified_message = { _id, createdAt, content };
                     modified_message.sender = session.user.first_name + " " + session.user.last_name;
+                    modified_message.sender_email = session.user.email;
                     console.log(modified_message);
                     io.to(group_id).emit("new_message", modified_message);
                 } catch (error) {
