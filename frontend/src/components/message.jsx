@@ -1,12 +1,17 @@
 import PageBar from "./pagebar";
 import PopUp from "./popup";
 
-const Message = ({ msg }) => {
+const Message = ({ msg, socket }) => {
 
     const formatted_time = new Date(msg.createdAt).toLocaleString();
 
-    const HandleDeleteMsg = async (msg) => {
-
+    const HandleDeleteMsg = async () => {
+        try {
+            socket.emit("delete_message", msg._id);
+            
+        } catch ( error ) {
+            console.log("Axios Error:", error.response ? error.response.data : error.message);
+        }
     };
 
     return (

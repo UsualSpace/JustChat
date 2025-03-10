@@ -11,6 +11,7 @@ import axios from "axios";
 //components
 import PageBar from "../components/pagebar";
 import Message from "../components/message";
+import NavigationBar from "../components/navbar";
 
 const Messaging = () => {
     const { groups } = UseGroupsContext();
@@ -88,33 +89,38 @@ const Messaging = () => {
     };
 
     return (
-        <div className="page-background">
-            <PageBar title={group.name}>
-                {/*TODO: add a way to get to settings here?*/}
-            </PageBar>
-            <div className="page-element-list">
-                <div className="scrollable-container">
-                    {messages && messages.map((msg) => (
-                        <div key={msg._id} className="message">
-                            <h2>{msg.sender + " @ " + new Date(msg.createdAt).toLocaleString()}</h2>
-                            <PageBar title={msg.content}>
-                                <button className="btn-destructive" onClick={() => HandleDeleteMessage(msg)}> Delete Message </button>
-                            </PageBar>
-                        </div>
-                    ))}
-                </div>
+        <div className="page-container">
+            <div className="navbar">
+                <NavigationBar></NavigationBar>
             </div>
-            <div className="message-bar">
-                <form onSubmit={HandleSendMessage}>
-                    <input 
-                        type="text" 
-                        placeholder="type in a message"
-                        value={new_message}
-                        onChange={(event) => SetNewMessage(event.target.value)}
-                        required
-                    />
-                    <button className="btn-constructive" type="submit">Send</button>
-                </form>
+            <div className="page-background">
+                <PageBar title={group.name}>
+                    {/*TODO: add a way to get to settings here?*/}
+                </PageBar>
+                <div className="page-element-list">
+                    <div className="scrollable-container">
+                        {messages && messages.map((msg) => (
+                            <div key={msg._id} className="message">
+                                <h2>{msg.sender + " @ " + new Date(msg.createdAt).toLocaleString()}</h2>
+                                <PageBar title={msg.content}>
+                                    <button className="btn-destructive" onClick={() => HandleDeleteMessage(msg)}> Delete Message </button>
+                                </PageBar>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="message-bar">
+                    <form onSubmit={HandleSendMessage}>
+                        <input 
+                            type="text" 
+                            placeholder="type in a message"
+                            value={new_message}
+                            onChange={(event) => SetNewMessage(event.target.value)}
+                            required
+                        />
+                        <button className="btn-constructive" type="submit">Send</button>
+                    </form>
+                </div>
             </div>
         </div>
     );

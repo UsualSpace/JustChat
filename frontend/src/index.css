@@ -81,11 +81,6 @@ button:hover {
 .btn-constructive:hover {
     background: green
 }
-
-.scrollable-container {
-    overflow-y: auto;
-    max-height: 400px;
-}
 */
 
 :root {
@@ -111,9 +106,7 @@ html, body {
     height: 100%;
     width: 100%;
 }
-
-
-  
+ 
 .page-container {
     display: grid;
     grid-template-columns: 0.25fr 1fr;
@@ -137,9 +130,6 @@ html, body {
     padding-right: 10px;
     backdrop-filter: blur(10px);
 }
-
-
-
 
 .navbar-title {
     text-align: center;

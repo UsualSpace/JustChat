@@ -8,6 +8,7 @@ import axios from "axios"
 //components
 import PageBar from "../components/pagebar";
 import PopUp from "../components/popup";
+import NavigationBar from "../components/navbar";
 
 function Groups() {
     const { groups, dispatch } = UseGroupsContext();
@@ -55,31 +56,36 @@ function Groups() {
     };
 
     return (
-        <div className="page-background">
-            <PageBar title="Groups">
-                <PopUp button_label="Create a new group">
-                    <h1>Enter the name of your new group:</h1>
-                    <form className="input-control" onSubmit={HandleCreateGroup}>
-                        <input
-                            placeholder="Group name"
-                            type="text"
-                            onChange={(event) => SetGroupName(event.target.value)}
-                            value={group_name}
-                            required
-                        />
-                        <button type="submit" className="btn-constructive">Create Group</button>
-                    </form>
-                </PopUp>
-                <button title="View group invites"> ! </button>
-            </PageBar>
-            <div className="page-element-list">
-                {groups && groups.map((group) => (
-                    <PageBar key={group._id} title={ group.name }>
-                        <button title={`Message in ${group.name}`} onClick={() => GoToMessaging(group._id)}> Message </button>
-                        <button title={`Settings ${group.name}`} onClick={() => GoToSettings(group._id)}> Settings </button>
-                        <button title={`Leave ${group.name}`}> Leave </button>
-                    </PageBar>
-                ))}
+        <div className="page-container">
+            <div className="navbar">
+                    <NavigationBar></NavigationBar>
+            </div>
+            <div className="page-background">
+                <PageBar title="Groups">
+                    <PopUp button_label="Create a new group">
+                        <h1>Enter the name of your new group:</h1>
+                        <form className="input-control" onSubmit={HandleCreateGroup}>
+                            <input
+                                placeholder="Group name"
+                                type="text"
+                                onChange={(event) => SetGroupName(event.target.value)}
+                                value={group_name}
+                                required
+                            />
+                            <button type="submit" className="btn-constructive">Create Group</button>
+                        </form>
+                    </PopUp>
+                    <button title="View group invites"> ! </button>
+                </PageBar>
+                <div className="page-element-list">
+                    {groups && groups.map((group) => (
+                        <PageBar key={group._id} title={ group.name }>
+                            <button title={`Message in ${group.name}`} onClick={() => GoToMessaging(group._id)}> Message </button>
+                            <button title={`Settings ${group.name}`} onClick={() => GoToSettings(group._id)}> Settings </button>
+                            <button title={`Leave ${group.name}`}> Leave </button>
+                        </PageBar>
+                    ))}
+                </div>
             </div>
         </div>
     );

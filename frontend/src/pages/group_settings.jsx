@@ -7,6 +7,7 @@ import axios from "axios";
 //components
 import PageBar from "../components/pagebar";
 import PopUp from "../components/popup";
+import NavigationBar from "../components/navbar";
 
 function GroupSettings() {
     const { groups, dispatch } = UseGroupsContext();
@@ -41,22 +42,27 @@ function GroupSettings() {
     };
 
     return (
-        <div className="page-background">
-            <PageBar title={`${group.name} Settings`}></PageBar>
-            {/* Potentially allow group name updates */}
-
-            <h1>Members:</h1>
-            <div className="page-element-list">
-                {group && group.members.map((member) => (
-                    <PageBar key={member.user._id} title={ "[" + member.role + "] " + member.user.first_name + " " + member.user.last_name + " (" + member.user.email + ")"}>
-                    </PageBar>
-                ))}
+        <div className="page-container">
+            <div className="navbar">
+                <NavigationBar></NavigationBar>
             </div>
+            <div className="page-background">
+                <PageBar title={`${group.name} Settings`}></PageBar>
+                {/* Potentially allow group name updates */}
 
-            <button className="btn-destructive" onClick={HandleDeleteGroup}>Delete Group</button>
+                <h1>Members:</h1>
+                <div className="page-element-list">
+                    {group && group.members.map((member) => (
+                        <PageBar key={member.user._id} title={ "[" + member.role + "] " + member.user.first_name + " " + member.user.last_name + " (" + member.user.email + ")"}>
+                        </PageBar>
+                    ))}
+                </div>
 
-            {/* Success/Error Message */}
-            {/*error && <p>{error}</p>*/}
+                <button className="btn-destructive" onClick={HandleDeleteGroup}>Delete Group</button>
+
+                {/* Success/Error Message */}
+                {/*error && <p>{error}</p>*/}
+            </div>
         </div>
     );
 }
