@@ -17,11 +17,11 @@ function App() {
 
   return (
     <div className="App">
-      {(() => {
+      {/*(() => {
         const location = useLocation();
         const excluded_paths = ["/signup", "/signin", "/"];
         return !excluded_paths.includes(location.pathname);
-      })() && <NavigationBar />}
+      })() && <NavigationBar />*/}
       <div className="pages">
         <Routes>
           {/*Default to signup page*/}
@@ -29,39 +29,39 @@ function App() {
             path="/"
             element={<SignUp/>}
           />
-          <Route
-            path="/signup"
-            element={<SignUp/>}
-          />
-          <Route
-            path="/signin"
-            element={<SignIn/>}
-          />
-          {/*TODO: use protected routes instead*/}
-          <Route 
-            path="/dashboard"
-            element={<Dashboard/>}
-          />
-          <Route 
-            path="/settings"
-            element={<Settings/>}
-          />
-          <Route
-            path="/friends"
-            element={<Friends/>}
-          />
-          <Route 
-            path="/groups"
-            element={<Groups/>}
-          />
-          <Route 
-            path="/groups/:group_id/settings"
-            element={<GroupSettings/>}
-          />
-          <Route
-            path="/groups/:group_id/messaging"
-            element={<Messaging/>}
-          />
+        <Route
+          path="/signup"
+          element={<SignUp/>}
+        />
+        <Route
+          path="/signin"
+          element={<SignIn/>}
+        />
+        {/*TODO: use protected routes instead*/}
+        <Route 
+          path="/dashboard"
+          element={<Dashboard/>}
+        />
+        <Route 
+          path="/settings"
+          element={<Settings/>}
+        />
+        <Route
+          path="/friends"
+          element={<Friends/>}
+        />
+        <Route 
+          path="/groups"
+          element={<Groups/>}
+        />
+        <Route 
+          path="/groups/:group_id/settings"
+          element={<GroupSettings/>}
+        />
+        <Route
+          path="/groups/:group_id/messaging"
+          element={<Messaging/>}
+        />
         </Routes>
       </div>
     </div>

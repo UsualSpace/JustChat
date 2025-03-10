@@ -7,6 +7,7 @@ import axios from "axios"
 
 //components
 import PageBar from "../components/pagebar"
+import NavigationBar from "../components/navbar";
 
 function Friends() {
     const { friends, dispatch } = UseFriendsContext();
@@ -60,30 +61,35 @@ function Friends() {
     }
 
     return (
-        <div className="page-background">
-            <PageBar title="Friends">
-                <PopUp button_label="Add a friend">
-                    <h1>Look for friends:</h1>
-                    <form className="input-control" onSubmit={HandleFriendRequest}>
-                        <input
-                            placeholder="Email"
-                            type="text"
-                            onChange={(event) => SetEmail(event.target.value)}
-                            value={email}
-                            required
-                        />
-                        <button type="submit" className="btn-constructive">Send Friend Request</button>
-                    </form>
-                </PopUp>
-                {/*<button title="View Friend Requests"> ! </button> */}
-            </PageBar>
-            <div className="page-element-list">
-                {friends && friends.map((friend) => (
-                    <PageBar key={ friend.friendship_id } title={ `${friend.first_name} ${friend.last_name}` } >
-                        <button title={`Message ${friend.first_name}`}> Message </button>
-                        <button className="btn-destructive" onClick={() => HandleUnfriend(friend)} title={`Unfriend ${friend.first_name}`}> Unfriend </button>
-                    </PageBar>
-                ))}
+        <div className="page-container">
+            <div className="navbar">
+                <NavigationBar></NavigationBar>
+            </div>
+            <div className="page-background">
+                <PageBar title="Friends">
+                    <PopUp button_label="Add a friend">
+                        <h1>Look for friends:</h1>
+                        <form className="input-control" onSubmit={HandleFriendRequest}>
+                            <input
+                                placeholder="Email"
+                                type="text"
+                                onChange={(event) => SetEmail(event.target.value)}
+                                value={email}
+                                required
+                            />
+                            <button type="submit" className="btn-constructive">Send Friend Request</button>
+                        </form>
+                    </PopUp>
+                    {/*<button title="View Friend Requests"> ! </button> */}
+                </PageBar>
+                <div className="page-element-list">
+                    {friends && friends.map((friend) => (
+                        <PageBar key={ friend.friendship_id } title={ `${friend.first_name} ${friend.last_name}` } >
+                            <button title={`Message ${friend.first_name}`}> Message </button>
+                            <button className="btn-destructive" onClick={() => HandleUnfriend(friend)} title={`Unfriend ${friend.first_name}`}> Unfriend </button>
+                        </PageBar>
+                    ))}
+                </div>
             </div>
         </div>
     );

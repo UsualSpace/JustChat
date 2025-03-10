@@ -25,7 +25,7 @@ const NavigationBar = () => {
   };
 
   return (
-    <div className="navbar">
+      <>
       <h2 className="navbar-title">JustChat</h2>
       <nav className="navbar-nav">
         <Link to="/groups" className="navbar-link">Groups</Link>
@@ -34,7 +34,7 @@ const NavigationBar = () => {
       </nav>
     
       <button className="btn-destructive" onClick={HandleSignOut}>Sign Out</button>
-    </div>
+      </>
   );
 };
 
