@@ -13,9 +13,7 @@ function GroupSettings() {
     const { group_id } = useParams();
     const navigate = useNavigate();
 
-    console.log(groups);
     const group = groups.find(group => group._id === group_id);
-    console.log(group);
 
     if(!group) {
         console.log("group data not found");

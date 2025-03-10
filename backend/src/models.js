@@ -22,7 +22,6 @@ const member_schema = new mongoose.Schema({
 
 const message_schema = new mongoose.Schema({
   sender: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true}, 
-  receiver: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
   content: {type: String, required: true},
 }, {timestamps: true});
 
@@ -53,6 +52,7 @@ const session_schema = new mongoose.Schema({
 
 const User = mongoose.model('User', user_schema);
 const Friendship = mongoose.model('Friendship', friendship_schema);
+const Message = mongoose.model("Message", message_schema);
 const Group = mongoose.model("Group", group_schema);
 const GroupInvite = mongoose.model("GroupInvite", group_invite_schema);
 const PrivateGroup = mongoose.model("PrivateGroup", private_group_schema);
@@ -61,6 +61,7 @@ const Session = mongoose.model("Session", session_schema);
 module.exports = {
   User,
   Friendship,
+  Message,
   Group,
   GroupInvite,
   PrivateGroup,

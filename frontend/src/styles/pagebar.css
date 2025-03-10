@@ -8,13 +8,10 @@
     --secondary-text-clr: #b0b3c1;
 }
 
-
-
-
 .page-bar {
-    background-color: #C3B1E1;
-    height: 95vh;
-    width: 1200px;
+    background-color:#C3B1E1;
+    height: 10vh;
+    width: 500px;
     border-radius: var(--rounding);
     margin-left: 250px;
 }

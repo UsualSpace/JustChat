@@ -28,23 +28,23 @@ export const GroupsContextProvider = ({ children }) => {
         groups: null
     });
 
-    // useEffect(() => {
-    //     const FetchGroups = async () => {
-    //         try {
-    //             const response = await axios.get("http://localhost:4000/api/groups", GetAuthHeader());
+    useEffect(() => {
+        const FetchGroups = async () => {
+            try {
+                const response = await axios.get("http://localhost:4000/api/groups", GetAuthHeader());
 
-    //             dispatch({
-    //                 type: "SET_GROUPS",
-    //                 payload: response.data
-    //             });
+                dispatch({
+                    type: "SET_GROUPS",
+                    payload: response.data
+                });
 
-    //         } catch ( error ) {
-    //             console.log("Axios Error:", error.response ? error.response.data : error.message);
-    //         }
-    //     };
+            } catch ( error ) {
+                console.log("Axios Error:", error.response ? error.response.data : error.message);
+            }
+        };
 
-    //     FetchGroups();
-    // }, []);
+        FetchGroups();
+    }, []);
 
     return (
        <groups_context.Provider value={{ ...state, dispatch }}>

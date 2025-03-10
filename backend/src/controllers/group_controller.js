@@ -63,8 +63,32 @@ const DeleteGroup = async (req, res) => {
   }
 };
 
+const GetMessages = async (req, res) => {
+  const { user } = req.body;
+  const { group_id } = req.params;
+
+  if(!group_id || !user) {
+    return res.status(400).json({message: "missing fields"});
+  }
+
+  try {
+    const { messages } = await Group.findById(group_id).populate("messages.sender").select("messages");
+    modified_messages = messages.map(message => {
+      const { _id, createdAt, content } = message;
+      const modified_message = { _id, createdAt, content };
+      modified_message.sender = message.sender.first_name + " " + message.sender.last_name;
+      return modified_message;
+    });
+    console.log(JSON.stringify(modified_messages, null, 2));
+    return res.status(200).json(modified_messages);
+  } catch (error) {
+    res.status(500).json(`Server error get messages ${error.message}`);
+  }
+};
+
 module.exports = {
   GetGroups,
   CreateGroup,
-  DeleteGroup
+  DeleteGroup,
+  GetMessages
 };

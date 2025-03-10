@@ -1,9 +1,9 @@
 import PageBar from "./pagebar";
 import PopUp from "./popup";
 
-const Message = (msg) => {
+const Message = ({ msg }) => {
 
-    const formatted_time = new Date(msg.timestamp).toLocaleString();
+    const formatted_time = new Date(msg.createdAt).toLocaleString();
 
     const HandleDeleteMsg = async (msg) => {
 
@@ -11,7 +11,7 @@ const Message = (msg) => {
 
     return (
         <div className="message">
-            <h2>{msg.sender_name + " @ " + formatted_time}</h2>
+            <h2>{msg.sender + " @ " + formatted_time}</h2>
             <PageBar title={msg.content}>
                 <button className="btn-destructive" onClick={() => HandleDeleteMsg(msg)}> Delete Message </button>
             </PageBar>

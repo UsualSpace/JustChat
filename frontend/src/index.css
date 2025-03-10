@@ -81,5 +81,9 @@ button:hover {
     background: green
 }
 
+.scrollable-container {
+    overflow-y: auto;
+    max-height: 400px;
+}
 
 
