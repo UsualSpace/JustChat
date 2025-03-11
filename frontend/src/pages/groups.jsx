@@ -10,6 +10,9 @@ import PageBar from "../components/pagebar";
 import PopUp from "../components/popup";
 import NavigationBar from "../components/navbar";
 
+//icons
+import { MessageCircle } from "lucide-react";
+
 function Groups() {
     const { groups, dispatch } = UseGroupsContext();
     const [group_name, SetGroupName] = useState("");
@@ -80,7 +83,9 @@ function Groups() {
                 <div className="page-element-list">
                     {groups && groups.map((group) => (
                         <PageBar key={group._id} title={ group.name }>
-                            <button title={`Message in ${group.name}`} onClick={() => GoToMessaging(group._id)}> Message </button>
+                            
+                            <MessageCircle size={24} title={`Message in ${group.name}`} onClick={() => GoToMessaging(group._id)}></MessageCircle>
+                            
                             <button title={`Settings ${group.name}`} onClick={() => GoToSettings(group._id)}> Settings </button>
                             <button title={`Leave ${group.name}`}> Leave </button>
                         </PageBar>

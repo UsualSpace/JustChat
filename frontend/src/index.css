@@ -90,6 +90,7 @@ button:hover {
     --rounding: 50px;
     --margin: 45px;
     --msg-font-size: 10px;
+    --box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
     --background1: url('./assets/justchatback1.jpg');
     --background2: url('./assets/justchatback2.jpg');
     --background3: url('./assets/justchatback3.jpg');
@@ -115,7 +116,7 @@ html, body {
     grid-column-gap:30px;
     height: 100vh;
     width: 100vw;
-    background-image: var(--background3);
+    background-image: var(--background4);
     background-size: cover;
     background-position: center;
 }
@@ -130,6 +131,7 @@ html, body {
     padding-left: 10px;
     padding-right: 10px;
     backdrop-filter: blur(25px);
+    box-shadow: var(--box-shadow);
 }
 
 .navbar-title {
@@ -142,16 +144,16 @@ html, body {
     text-decoration: none;
     font-size: 18px;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: var(--rounding);
     transition: background 0.3s;
     text-align: center;
-    
 }
 
 .navbar-nav {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    border-radius: var(--rounding);
 }
 
 .navbar-link:hover {
@@ -159,8 +161,8 @@ html, body {
 }
 
 .btn-destructive {
-    background-color: gray;
     color: black;
+    background-color: rgba(0, 0, 0, 0.0);
     border: none;
     padding: 12px;
     border-radius: var(--rounding);
@@ -169,14 +171,18 @@ html, body {
     font-size: 16px;
     transition: background 0.3s;
 }
+
+.page-background .btn-destructive {
+    background-color: rgba(255, 255, 255, 1.0);  
+}
   
 .btn-destructive:hover {
-    background-color: #cc0000;
+    background-color: red;
     font: 10px;
 }
 
 .btn-constructive {
-    background-color: #ff4444;
+    background-color: white;/*#ff4444;*/
     color: black;
     border: none;
     padding: 12px;
@@ -200,8 +206,9 @@ html, body {
     margin-bottom: var(--margin);
     background-color: rgba(255, 255, 255, 0.7);
     padding: 10px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.0);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    backdrop-filter: blur(25px);
 }
 
 .msg-self {
@@ -224,7 +231,41 @@ html, body {
 
 .page-element-list {
     height: 70vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     overflow-y:auto;
+}
+
+.page-bar {
+    background-color: white;
+    border-radius: var(--rounding);
+    overflow: hidden;
+    display: flex; /* Enables horizontal layout */
+    align-items: center; /* Centers children vertically */
+    justify-content: space-between; /* Pushes div1 left and div2 right */
+    padding: 10px; /* Adjust as needed */
+    box-shadow: var(--box-shadow);
+}
+
+.page-bar-title {
+    margin-left: var(--margin); 
+}
+
+.page-bar-options {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    margin-right: var(--margin);
+}
+
+.messaging {
+    display: contents;
+}
+
+.messaging .page-background {
+    background-color: rgba(0, 0, 0, 0.0);
+    backdrop-filter: blur(0px);
 }
 
 

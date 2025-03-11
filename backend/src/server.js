@@ -103,21 +103,12 @@ mongoose.connect(process.env.MONGO_URI)
                     if(!group) {
                         throw new Error(`group ${group_id} not found`);
                     }
-                    
-                    const message = new Message({
-                        sender: session.user._id,
-                        content: content
-                    });
 
-                    group.messages.push(message);
+                    group.messages = group.messages.filter(message => String(message._id) !== message_id);
         
                     await group.save();
-                    const { _id, createdAt } = group.messages[group.messages.length - 1];
-                    console.log(createdAt);
-                    const modified_message = { _id, createdAt, content };
-                    modified_message.sender = session.user.first_name + " " + session.user.last_name;
-                    console.log(modified_message);
-                    io.to(group_id).emit("new_message", modified_message);
+                    
+                    io.to(group_id).emit("server_delete_message", message_id);
                 } catch (error) {
                     console.log("error fetching group data: ", error);
                     

@@ -30,7 +30,6 @@ const Messaging = () => {
         const FetchMessages = async () => {
             try {
                 const response = await axios.get(`http://localhost:4000/api/groups/${group._id}/messages`, GetAuthHeader());
-                console.log(response.data);
                 SetMessages(response.data);
             } catch ( error ) {
                 console.log("Axios Error:", error.response ? error.response.data : error.message);
@@ -38,7 +37,6 @@ const Messaging = () => {
         };
 
         FetchMessages();
-        //bottom_ref.current?.scrollIntoView({ behavior: "smooth" }, 100);
     }, [group_id]);
 
     useLayoutEffect(() => {
@@ -55,18 +53,17 @@ const Messaging = () => {
             SetMessages((previous_messages) => [...previous_messages, message]);
         });
 
-        socket.on("server_remove_message", (message_id) => {
-            SetMessages(messages.filter(msg => msg._id !== message_id));
+        socket.on("server_delete_message", (message_id) => {
+            SetMessages((previous_messages) => previous_messages.filter(msg => msg._id !== message_id));
         });
 
         return () => {
             socket.emit('leave_group', group_id); 
-            socket.off('new_message'); 
-            //socket.disconnect(); 
+            socket.off("new_message");
         };
     },[]);
 
-    const HandleSendMessage = async (event) => {
+    const HandleSendMessage = (event) => {
         event.preventDefault();
         try {
             const message = {
@@ -78,22 +75,22 @@ const Messaging = () => {
             socket.emit("send_message", message);
             
             SetNewMessage("");
-            //bottom_ref.current?.scrollIntoView({ behavior: "smooth" });
+        
         } catch ( error ) {
-            console.log("Axios Error:", error.response ? error.response.data : error.message);
+            
         }
     };
 
-    const HandleDeleteMessage = async (message) => {
-        // try {
-        //     socket.emit("delete_message", {
-        //         message_id: message._id,
-        //         session_id: sessionStorage.getItem("session_id"),
-        //         group_id: group_id
-        //     });
-        // } catch ( error ) {
-        //     console.log("Axios Error:", error.response ? error.response.data : error.message);
-        // }
+    const HandleDeleteMessage = (message) => {
+        try {
+            socket.emit("delete_message", {
+                message_id: message._id,
+                session_id: sessionStorage.getItem("session_id"),
+                group_id: group_id
+            });
+        } catch ( error ) {
+            
+        }
     };
 
     return (
@@ -101,32 +98,34 @@ const Messaging = () => {
             <div className="navbar">
                 <NavigationBar></NavigationBar>
             </div>
-            <div className="page-background">
-                <PageBar title={group.name}>
-                    {/*TODO: add a way to get to settings here?*/}
-                </PageBar>
-                <div className="page-element-list">
-                    {messages && messages.map((msg) => (
-                        <div key={msg._id} className={sessionStorage.getItem("email") === msg.sender_email ? "msg-self" : "msg-other"}>
-                            <h2>{msg.sender + " @ " + new Date(msg.createdAt).toLocaleString()}</h2>
-                            <PageBar title={msg.content}>
-                                <button className="btn-destructive" onClick={() => HandleDeleteMessage(msg)}> Delete Message </button>
-                            </PageBar>
-                        </div>
-                    ))}
-                    <div ref={bottom_ref}/>
-                </div>
-                <div className="message-bar">
-                    <form onSubmit={HandleSendMessage}>
-                        <input 
-                            type="text" 
-                            placeholder="type in a message"
-                            value={new_message}
-                            onChange={(event) => SetNewMessage(event.target.value)}
-                            required
-                        />
-                        <button className="btn-constructive" type="submit">Send</button>
-                    </form>
+            <div className="messaging">
+                <div className="page-background">
+                    <PageBar title={group.name}>
+                        {/*TODO: add a way to get to settings here?*/}
+                    </PageBar>
+                    <div className="page-element-list">
+                        {messages && messages.map((msg) => (
+                            <div key={msg._id} className={sessionStorage.getItem("email") === msg.sender_email ? "msg-self" : "msg-other"}>
+                                <h2>{msg.sender + " @ " + new Date(msg.createdAt).toLocaleString()}</h2>
+                                <PageBar title={msg.content}>
+                                    <button className="btn-destructive" onClick={() => HandleDeleteMessage(msg)}> Delete Message </button>
+                                </PageBar>
+                            </div>
+                        ))}
+                        <div ref={bottom_ref}/>
+                    </div>
+                    <div className="message-bar">
+                        <form onSubmit={HandleSendMessage}>
+                            <input 
+                                type="text" 
+                                placeholder="type in a message"
+                                value={new_message}
+                                onChange={(event) => SetNewMessage(event.target.value)}
+                                required
+                            />
+                            <button className="btn-constructive" type="submit">Send</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
