@@ -11,7 +11,7 @@ import PopUp from "../components/popup";
 import NavigationBar from "../components/navbar";
 
 //icons
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, EllipsisVertical, LogOut } from "lucide-react";
 
 function Groups() {
     const { groups, dispatch } = UseGroupsContext();
@@ -80,14 +80,19 @@ function Groups() {
                     </PopUp>
                     <button title="View group invites"> ! </button>
                 </PageBar>
+                <br/>
                 <div className="page-element-list">
                     {groups && groups.map((group) => (
                         <PageBar key={group._id} title={ group.name }>
-                            
-                            <MessageCircle size={24} title={`Message in ${group.name}`} onClick={() => GoToMessaging(group._id)}></MessageCircle>
-                            
-                            <button title={`Settings ${group.name}`} onClick={() => GoToSettings(group._id)}> Settings </button>
-                            <button title={`Leave ${group.name}`}> Leave </button>
+                        <div className="icon-container">
+                            <MessageCircle className="icon-message-circle" size={40} strokeWidth={3} title={`Message in ${group.name}`} onClick={() => GoToMessaging(group._id)} />
+                        </div>
+                        <div className="icon-container">
+                            <LogOut className="icon-logout" size={40} strokeWidth={3} title={`Leave ${group.name}`} />
+                        </div>
+                        <div className="icon-container">
+                            <EllipsisVertical className="icon-ellipsis-vertical" size={40} strokeWidth={3} title={`Settings ${group.name}`} onClick={() => GoToSettings(group._id)} />
+                        </div>
                         </PageBar>
                     ))}
                 </div>

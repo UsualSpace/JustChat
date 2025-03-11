@@ -116,7 +116,7 @@ html, body {
     grid-column-gap:30px;
     height: 100vh;
     width: 100vw;
-    background-image: var(--background4);
+    background-image: var(--background2);
     background-size: cover;
     background-position: center;
 }
@@ -229,23 +229,80 @@ html, body {
     overflow: hidden
 }
 
+.message-bar {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    margin-top: auto;
+}
+
+.input-message {
+    padding: 20px;
+    border-radius: var(--rounding);
+    border: 1px;
+    margin-right: 10px; /* Add some spacing between input and icon */
+    width: 100%;
+    font-size: 15px;
+}
+
 .page-element-list {
     height: 70vh;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    overflow-y:auto;
+    overflow-y: auto;
+    margin-right: 20px;
+    margin-left: 20px;
+    border-radius: var(--rounding);
 }
+
+.page-element-list > * {
+    flex-shrink: 0;
+}
+
+/* SCROLLBAR STYLING */
+
+.page-element-list::-webkit-scrollbar {
+    width: 8px; /* Adjust width */
+}
+
+/* Scrollbar track (background) */
+.page-element-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.0); /* Light gray background */
+    border-radius: 10px;
+}
+
+/* Scrollbar handle (thumb) */
+.page-element-list::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.7); /* Darker gray */
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--box-shadow);
+    transition: background-color 0.3s ease;
+}
+
+/* Scrollbar handle on hover */
+.page-element-list::-webkit-scrollbar-thumb:hover {
+    background-color: black;
+}
+
+/* SCROLLBAR STYLING */
+
 
 .page-bar {
     background-color: white;
     border-radius: var(--rounding);
     overflow: hidden;
-    display: flex; /* Enables horizontal layout */
-    align-items: center; /* Centers children vertically */
-    justify-content: space-between; /* Pushes div1 left and div2 right */
-    padding: 10px; /* Adjust as needed */
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    padding: 1px;
     box-shadow: var(--box-shadow);
+}
+
+.page-element-list .message {
+    margin-right: 50px;
+    margin-left: 50px;
 }
 
 .page-bar-title {
@@ -256,7 +313,23 @@ html, body {
     display: flex;
     flex-direction: row; 
     align-items: center;
+    gap: 30px;
     margin-right: var(--margin);
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;  /* Change this to the desired background color */
+    border-radius: var(--rounding);  /* Makes the background circular */
+    padding: 10px;  /* Controls the size of the background (adjust as needed) */
+    transition: background-color 0.3s ease;  /* Smooth transition for hover effect */
+}
+
+.icon-container:hover {
+    background-color: black;
+    color: white;
 }
 
 .messaging {

@@ -3,16 +3,16 @@ import { io } from "socket.io-client";
 
 const socket_context = createContext(null);
 
-export const SocketProvider = ({ children }) => {
+export const SocketContextProvider = ({ children }) => {
     const [socket, SetSocket] = useState(null);
 
     useEffect(() => {
-        const new_socket = io("http://localhost:4000");
+        //const new_socket = io("http://localhost:4000");
 
-        SetSocket(new_socket);
+        //SetSocket(new_socket);
 
         return () => {
-            new_socket.disconnect(); // Cleanup on unmount
+            //new_socket.disconnect(); // Cleanup on unmount
         };
     }, []);
 
@@ -21,8 +21,4 @@ export const SocketProvider = ({ children }) => {
             {children}
         </socket_context.Provider>
     );
-};
-
-export const UseSocket = () => {
-    return useContext(socket_context);
 };
