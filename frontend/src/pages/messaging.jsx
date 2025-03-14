@@ -1,12 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef, useLayoutEffect } from "react"
 import { UseGroupsContext } from "../hooks/use_groups_context";
+import { UseSocketContext } from "../hooks/use_socket_context";
 import { GetAuthHeader } from "../helpers";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:4000")
+const socket = io("http://localhost:4000");
 
 import axios from "axios";
-
 
 //components
 import PageBar from "../components/pagebar";
@@ -14,13 +14,16 @@ import Message from "../components/message";
 import NavigationBar from "../components/navbar";
 
 //icons
-import { SendHorizontal } from "lucide-react";
+import { SendHorizontal, EllipsisVertical } from "lucide-react";
 
 const Messaging = () => {
     const { groups } = UseGroupsContext();
+    //const { socket } = UseSocketContext();
     const { group_id } = useParams();
     const [messages, SetMessages] = useState([]);
     const [new_message, SetNewMessage] = useState("");
+
+    const navigate = useNavigate();
 
     const group = groups.find(group => group._id === group_id);
     if(!group) {
@@ -104,17 +107,18 @@ const Messaging = () => {
             <div className="messaging">
                 <div className="page-background">
                     <PageBar title={group.name}>
-                        {/*TODO: add a way to get to settings here?*/}
+                        <div className="icon-container">
+                            <EllipsisVertical className="icon-ellipsis-vertical" size={40} strokeWidth={3} title={`More about ${group.name}`} onClick={() => navigate(`/groups/${group._id}/settings`)} />
+                        </div>
                     </PageBar>
                     <br/>
                     <div className="page-element-list">
                         {messages && messages.map((msg) => (
                             <div key={msg._id} className={sessionStorage.getItem("email") === msg.sender_email ? "msg-self" : "msg-other"}>
                                 <h2>{msg.sender + " @ " + new Date(msg.createdAt).toLocaleString()}</h2>
-                                <div className="message">
-                                    <p>{msg.content}</p>
-                                    <button className="btn-destructive" onClick={() => HandleDeleteMessage(msg)}> Delete Message </button>
-                                </div>
+                                <p>{msg.content}</p>
+                                <br/>
+                                <button className="btn-destructive" onClick={() => HandleDeleteMessage(msg)}> Delete Message </button>
                             </div>
                         ))}
                         <div ref={bottom_ref}/>

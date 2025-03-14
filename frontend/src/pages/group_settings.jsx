@@ -9,6 +9,9 @@ import PageBar from "../components/pagebar";
 import PopUp from "../components/popup";
 import NavigationBar from "../components/navbar";
 
+//icons
+import { MessageCircle } from "lucide-react";
+
 function GroupSettings() {
     const { groups, dispatch } = UseGroupsContext();
     const { group_id } = useParams();
@@ -47,9 +50,11 @@ function GroupSettings() {
                 <NavigationBar></NavigationBar>
             </div>
             <div className="page-background">
-                <PageBar title={`${group.name} Settings`}></PageBar>
-                {/* Potentially allow group name updates */}
-
+                <PageBar title={`${group.name} Settings`}>
+                    <div className="icon-container">
+                        <MessageCircle className="icon-message-circle" size={40} strokeWidth={3} title={`Message in ${group.name}`} onClick={() => navigate(`/groups/${group._id}/messaging`)} />
+                    </div>
+                </PageBar>
                 <h1>Members:</h1>
                 <div className="page-element-list">
                     {group && group.members.map((member) => (

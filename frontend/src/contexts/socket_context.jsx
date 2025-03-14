@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket_context = createContext(null);
+export const socket_context = createContext();
 
 export const SocketContextProvider = ({ children }) => {
     const [socket, SetSocket] = useState(null);
@@ -12,7 +12,7 @@ export const SocketContextProvider = ({ children }) => {
         //SetSocket(new_socket);
 
         return () => {
-            //new_socket.disconnect(); // Cleanup on unmount
+           // new_socket.disconnect(); // Cleanup on unmount
         };
     }, []);
 

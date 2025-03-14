@@ -91,7 +91,7 @@ function Groups() {
                             <LogOut className="icon-logout" size={40} strokeWidth={3} title={`Leave ${group.name}`} />
                         </div>
                         <div className="icon-container">
-                            <EllipsisVertical className="icon-ellipsis-vertical" size={40} strokeWidth={3} title={`Settings ${group.name}`} onClick={() => GoToSettings(group._id)} />
+                            <EllipsisVertical className="icon-ellipsis-vertical" size={40} strokeWidth={3} title={`More about ${group.name}`} onClick={() => GoToSettings(group._id)} />
                         </div>
                         </PageBar>
                     ))}

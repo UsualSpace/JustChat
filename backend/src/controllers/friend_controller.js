@@ -33,8 +33,7 @@ const GetFriends = async (req, res) => {
     const { user } = req.body;
     try {
         const friendships = await Friendship.find({
-            $or: [{ requester: user._id }, { receiver: user._id }], 
-            status: "accepted"
+            $or: [{ requester: user._id }, { receiver: user._id }]
         }).populate("requester receiver");
         if(!friendships) {
             return res.status(400).json({error: "failed to grab friends"});
@@ -74,14 +73,14 @@ const FriendRequest = async (req, res) => {
         }
 
         console.log("friend success");
-        res.status(200);//.json(GetFriend(friendship, user));
+        res.status(200).json(GetFriend(friendship, user));
     } catch (error) {
         res.status(500).json({ error: "Server error friend request"});
     }
 };
 
 const FriendRequestAccept = async (req, res) => {
-    const { friendship_id } = req.body;
+    const { friendship_id } = req.params;
     const updates = {
         status: "accepted"
     };

@@ -26,7 +26,7 @@ router.delete("/groups/:group_id/:message_id", middleware.AuthenticateSession, )
 //FRIENDSHIP RELATED ROUTES.
 router.get("/friends", middleware.AuthenticateSession, friend.GetFriends); //get all friends of a user
 router.post("/friends/:email", middleware.AuthenticateSession, friend.FriendRequest); //send a friend request to a user with email.
-router.patch("/friends", middleware.AuthenticateSession, friend.FriendRequestAccept); //accept a friend request.
+router.patch("/friends/:friendship_id", middleware.AuthenticateSession, friend.FriendRequestAccept); //accept a friend request.
 router.delete("/friends/:friendship_id", middleware.AuthenticateSession, friend.Unfriend); //unfriend a friend.
 
 module.exports = router

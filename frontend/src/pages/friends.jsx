@@ -35,9 +35,22 @@ function Friends() {
         event.preventDefault();
         try {
             const response = await axios.post(`http://localhost:4000/api/friends/${email}`, {}, GetAuthHeader());
-
+            console.log("help");
             dispatch({
                 type: "CREATE_FRIEND",
+                payload: response.data
+            });
+        } catch ( error ) {
+            console.log("Axios Error:", error);//error.response ? error.response.data : error.message);
+        }
+    }
+
+    const HandleFriendRequestAccept = async (friend) => {
+        try {
+            const response = await axios.patch(`http://localhost:4000/api/friends/${friend.friendship_id}`, {}, GetAuthHeader());
+
+            dispatch({
+                type: "ACCEPT_FRIEND",
                 payload: response.data
             });
 
@@ -80,13 +93,21 @@ function Friends() {
                             <button type="submit" className="btn-constructive">Send Friend Request</button>
                         </form>
                     </PopUp>
-                    {/*<button title="View Friend Requests"> ! </button> */}
                 </PageBar>
+                <br/>
                 <div className="page-element-list">
                     {friends && friends.map((friend) => (
                         <PageBar key={ friend.friendship_id } title={ `${friend.first_name} ${friend.last_name}` } >
                             <button title={`Message ${friend.first_name}`}> Message </button>
-                            <button className="btn-destructive" onClick={() => HandleUnfriend(friend)} title={`Unfriend ${friend.first_name}`}> Unfriend </button>
+                            {
+                                friend.friendship_status == "accepted" ?
+                                <button className="btn-destructive" onClick={() => HandleUnfriend(friend)} title={`Unfriend ${friend.first_name}`}> Unfriend </button>
+                                :
+                                !friend.is_receiver ?
+                                <p>Pending</p>
+                                :
+                                <button className="btn-constructive" onClick={() => HandleFriendRequestAccept(friend)} title={`Accept ${friend.first_name}'s friend request`}> Accept </button>
+                            }   
                         </PageBar>
                     ))}
                 </div>

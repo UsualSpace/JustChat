@@ -108,7 +108,28 @@ html, body {
     height: 100%;
     width: 100%;
 }
- 
+
+.popup-overlay {
+    position: absolute; /* Ensures it stays in place regardless of scrolling */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    z-index: 99999 !important; /* Ensures it's on top of everything */
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 100000; /* Ensures it's on top of the overlay */
+}
+
 .page-container {
     display: grid;
     grid-template-columns: 0.25fr 1fr;
@@ -116,7 +137,7 @@ html, body {
     grid-column-gap:30px;
     height: 100vh;
     width: 100vw;
-    background-image: var(--background2);
+    background-image: var(--background3);
     background-size: cover;
     background-position: center;
 }
@@ -154,6 +175,10 @@ html, body {
     flex-direction: column;
     gap: 15px;
     border-radius: var(--rounding);
+}
+
+.lucide {
+    stroke-width: 2.5;
 }
 
 .navbar-link:hover {
@@ -211,38 +236,70 @@ html, body {
     backdrop-filter: blur(25px);
 }
 
-.msg-self {
-    margin-left: 75%;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: var(--rounding);
-    font-size: var(--msg-font-size);
-    backdrop-filter: blur(10px);
-    overflow: hidden
+.msg-self,
+.msg-other {
+  padding: 20px;
+  margin: 10px;
+  border-radius: 20px;
+  max-width: 20%;
+  box-shadow: var(--box-shadow);
+  font-family: Arial, sans-serif;
+  white-space: normal;  /* Ensures text will wrap to a new line */
+  overflow-wrap: break-word; /* Forces long words to break if necessary */
+  text-align: left;
 }
 
-.msg-other {
-    margin-right: 75%;
-    background-color: rgba(255, 255, 255, 0.7);
-    font-size: var(--msg-font-size);
-    border-radius: var(--rounding);
-    backdrop-filter: blur(10px);
-    overflow: hidden
+/* Styling for messages sent by the current user */
+.msg-self {
+  background-color: #dcf8c6;  /* light green background */
+  align-self: flex-end;
 }
+
+/* Styling for messages from others */
+.msg-other {
+  background-color: #fff;
+  align-self: flex-start;
+}
+
+/* Header styling inside message blocks */
+.msg-self h2,
+.msg-other h2 {
+  margin: 0 0 8px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+/* Paragraph styling inside message blocks */
+.msg-self p,
+.msg-other p {
+  margin: 0;
+  font-size: 1em;
+  line-height: 1.4;
+  color: #333;
+}
+
+/* Button styling for the "Delete Message" button */
 
 .message-bar {
-    display: inline-flex;
-    align-items: center;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Align items vertically */
+    justify-content: flex-start; /* Align all elements to the left */
     width: 100%;
-    margin-top: auto;
+    position: absolute; /* Position at the bottom */
+    bottom: 0;
+    left: 0;
+    padding: 30px; /* Add padding to avoid touching the edges */
+    margin-right: 30px;
 }
 
 .input-message {
-    padding: 20px;
+    padding: 10px;
     border-radius: var(--rounding);
-    border: 1px;
-    margin-right: 10px; /* Add some spacing between input and icon */
-    width: 100%;
+    border: 1px solid #ccc; /* Ensure border is visible */
+    margin-right: 30px; /* Adjust spacing between input and icon */
+    width: 90.5%;
     font-size: 15px;
+    height: 40px;
 }
 
 .page-element-list {
@@ -253,7 +310,6 @@ html, body {
     overflow-y: auto;
     margin-right: 20px;
     margin-left: 20px;
-    border-radius: var(--rounding);
 }
 
 .page-element-list > * {
@@ -288,7 +344,6 @@ html, body {
 
 /* SCROLLBAR STYLING */
 
-
 .page-bar {
     background-color: white;
     border-radius: var(--rounding);
@@ -314,7 +369,7 @@ html, body {
     flex-direction: row; 
     align-items: center;
     gap: 30px;
-    margin-right: var(--margin);
+    margin-right: 20px;
 }
 
 .icon-container {
