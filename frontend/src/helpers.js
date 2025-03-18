@@ -3,7 +3,7 @@ export const GetAuthHeader = () => {
     
     const auth_header = {
         headers: {
-            "Authorization": `Bearer ${session_id}`
+            "authorization": `Bearer ${session_id}`
         }
     };
 

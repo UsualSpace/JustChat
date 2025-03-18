@@ -1,11 +1,12 @@
 import { Route, Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 function SignIn() {
     const [email, SetEmail] = useState("");
     const [password, SetPassword] = useState("");
     const [error, SetError] = useState(null);
+    const [success, SetSuccess] = useState(null);
 
     const navigate = useNavigate();
 
@@ -17,6 +18,7 @@ function SignIn() {
             SetEmail("");
             SetPassword("");
             SetError(null);
+            SetSuccess("successfully signed in");
             console.log("successfully signed in");
             
             //Store session id from server locally for protecting routes/future user authentication.
@@ -29,7 +31,7 @@ function SignIn() {
             //Force navigate to the main dashboard.
             navigate("/dashboard");
         } catch (error) {
-            SetError(error.response?.data?.error || "sign in failed");
+            SetError("sign in failed");
         }
     }
 
@@ -52,6 +54,8 @@ function SignIn() {
                     required
                 />
                 <button type="submit">Sign in</button>
+                {error && <p>{error}</p>}
+                {success && <p>{success}</p>}
             </form>
             <p style={{ marginTop: "15px" }}>
                 Don't have an account?   

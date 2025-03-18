@@ -9,6 +9,7 @@ function SignUp() {
     const [last_name, SetLast] = useState("");
     const [confirm, SetConfirm] = useState("");
     const [error, SetError] = useState(null);
+    const [success, SetSuccess] = useState(null);
 
     const navigate = useNavigate();
 
@@ -24,23 +25,26 @@ function SignUp() {
             SetPassword("");
             SetConfirm("");
             SetError(null);
+            SetSuccess("successfully signed up");
+
             console.log("successfully signed up");
 
-            const session_res = await axios.post("http://localhost:4000/api/auth/signin", { email, password });
-            console.log("successfully signed in");
+            // const session_res = await axios.post("http://localhost:4000/api/auth/signin", { email, password });
+            // console.log("successfully signed in");
             
-            //Store session id from server locally for protecting routes/future user authentication.
-            sessionStorage.setItem("session_id", session_res.data.session_id);
+            // //Store session id from server locally for protecting routes/future user authentication.
+            // sessionStorage.setItem("session_id", session_res.data.session_id);
 
-            //Not sure how okay this is, but we need a way to differentiate between sender and recipient when displaying group messages,
-            //especially when loading a chat and fetching the chat history.
-            sessionStorage.setItem("email", email);
+            // //Not sure how okay this is, but we need a way to differentiate between sender and recipient when displaying group messages,
+            // //especially when loading a chat and fetching the chat history.
+            // sessionStorage.setItem("email", email);
 
             //Force navigate to the main dashboard.
-            navigate("/dashboard");
+            //navigate("/dashboard");
+            //navigate("/signin");
     
         } catch (error) {
-            SetError(error.response?.data?.error || "sign up failed");
+            SetError("sign up failed");
         }
     }
 
@@ -111,6 +115,8 @@ function SignUp() {
                             Sign in
                         </Link>
                     </p>
+                    {error && <p>{error}</p>}
+                    {success && <p>{success}</p>}
                 </form>
             </div>
 
