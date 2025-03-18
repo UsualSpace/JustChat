@@ -26,11 +26,11 @@ function SignUp() {
             SetError(null);
             console.log("successfully signed up");
 
-            const session = await axios.post("http://localhost:4000/api/auth/signin", { email, password });
+            const session_res = await axios.post("http://localhost:4000/api/auth/signin", { email, password });
             console.log("successfully signed in");
             
             //Store session id from server locally for protecting routes/future user authentication.
-            sessionStorage.setItem("session_id", response.data.session_id);
+            sessionStorage.setItem("session_id", session_res.data.session_id);
 
             //Not sure how okay this is, but we need a way to differentiate between sender and recipient when displaying group messages,
             //especially when loading a chat and fetching the chat history.

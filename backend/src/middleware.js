@@ -1,7 +1,7 @@
 const { Session } = require("./models");
 
 const AuthenticateSession = async (req, res, next) => {
-    const auth_header = req.headers["authorization"];
+    const auth_header = req.headers["Authorization"];
     
     if(auth_header) {
         const session_id = auth_header.split(" ")[1];

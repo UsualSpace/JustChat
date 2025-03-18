@@ -16,6 +16,13 @@ export const FriendsReducer = (state, action) => {
             return {
                 friends: action.payload
             }
+        case "ACCEPT_FRIEND":
+            return {
+                friends: state.friends.map(friend => {
+                    friend.friendship_status = "accepted";
+                    return friend;
+                })
+            }
         default:
             return state
     }

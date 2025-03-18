@@ -35,7 +35,7 @@ const group_schema = new mongoose.Schema({
 
 const group_invite_schema = new mongoose.Schema({
   recipient: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
-  groupchat_id: {type: mongoose.Schema.Types.ObjectId, required: true}
+  group: {type: mongoose.Schema.Types.ObjectId, ref: "Group", required: true}
 });
 
 const private_group_schema = new mongoose.Schema({

@@ -1,4 +1,4 @@
-const { Group } =  require("../models");
+const { Group, GroupInvite, User } =  require("../models");
 
 const GetGroups = async (req, res) => {
   const { user } = req.body;
@@ -12,6 +12,26 @@ const GetGroups = async (req, res) => {
         console.error("Error fetching groups: ", err);
         res.status(500).json({error: "Error fetching groups"});
     });
+};
+
+const GetInvites = async (req, res) => {
+  const { user } = req.body;
+
+  if(!user) {
+    return res.status(400).json({error: "missing fields"});
+  }
+
+  try {
+    const invites = await GroupInvite.find({recipient: user._id}).populate("group", "_id name");
+    
+    if(!invites) {
+      return res.status(400);
+    }
+    console.log(JSON.stringify(invites, null, 2));
+    res.status(200).json(invites);
+  } catch (error) {
+    res.status(500).json(`Server error get invites ${error.message}`);
+  }
 };
 
 const CreateGroup = async (req, res) => {
@@ -32,6 +52,117 @@ const CreateGroup = async (req, res) => {
       ]
     });
     res.status(200).json(group);
+  } catch (error) {
+    res.status(500).json(`Server error create group ${error.message}`);
+  }
+};
+
+const InviteUser = async (req, res) => {
+  const { email, group_id } = req.params; 
+
+  if(!email) {
+    return res.status(400).json({error: "failure"});
+  }
+
+  try {
+    const recipient = await User.findOne({email: email}).select("_id");
+    if(!recipient) {
+      return res.status(400).json({error: "failure"});
+    }
+
+    const group_exists = await Group.exists({_id: group_id});
+    if(!group_exists) {
+      return res.status(400).json({error: "failure"});
+    }
+
+    const invite = await GroupInvite.create({
+      recipient: recipient._id,
+      group: group_id
+    });
+
+    res.status(200).json({message: "success"});
+  } catch (error) {
+    res.status(500).json(`Server error create group ${error.message}`);
+  }
+};
+
+const RemoveInvite = async (req, res) => {
+  const { invite_id } = req.params; 
+  console.log("remove invite called");
+  if(!invite_id) {
+    return res.status(400).json({message: "success"});
+  }
+
+  try {
+
+    const invite = await GroupInvite.findByIdAndDelete(invite_id);
+    if(!invite) {
+      return res.status(400).json({error: "invite invalid"});
+    }
+    
+    res.status(200).json({message: "success"});
+  } catch (error) {
+    res.status(500).json(`Server error create group ${error.message}`);
+  }
+};
+
+const AddMember = async (req, res) => {
+  const { group_id } = req.params;
+  const user_id = req.body.user._id;
+
+  if(!user_id || !group_id) {
+    return res.status(400).json({error: "failure"});
+  }
+
+  try {
+    const user_exists = await User.exists({_id: user_id});
+    if(!user_exists) {
+      return res.status(400).json({error: "failure"});
+    }
+
+    const group = await Group.findById(group_id);
+    if(!group) {
+      return res.status(400).json({error: "failure"});
+    }
+
+    group.members.push({
+      user: user_id,
+      role: "member"
+    });
+
+    group.save();
+
+    res.status(200).json({message: "success"});
+  } catch (error) {
+    res.status(500).json(`Server error create group ${error.message}`);
+  }
+};
+
+const RemoveMember = async (req, res) => {
+  const { group_id } = req.params;
+  const user_id = req.body.user._id;
+
+  if(!user_id || !group_id) {
+    return res.status(400).json({error: "failure"});
+  }
+
+  try {
+    // const user_exists = await User.exists({_id: user_id});
+    // if(!user_exists) {
+    //   return res.status(400).json({error: "failure"});
+    // }
+
+    const group = await Group.findById(group_id);
+    if(!group) {
+      return res.status(400).json({error: "failure"});
+    }
+    console.log(user_id);
+    group.members = group.members.filter(member => String(member.user) !== String(user_id));
+    console.log(group.members)
+
+    await group.save();
+
+    res.status(200).json({message: "success"});
   } catch (error) {
     res.status(500).json(`Server error create group ${error.message}`);
   }
@@ -89,7 +220,12 @@ const GetMessages = async (req, res) => {
 
 module.exports = {
   GetGroups,
+  GetInvites,
   CreateGroup,
+  InviteUser,
+  RemoveInvite,
+  AddMember,
+  RemoveMember,
   DeleteGroup,
   GetMessages
 };

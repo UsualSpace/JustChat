@@ -10,11 +10,12 @@ import PopUp from "../components/popup";
 import NavigationBar from "../components/navbar";
 
 //icons
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, UserRoundPlus } from "lucide-react";
 
 function GroupSettings() {
     const { groups, dispatch } = UseGroupsContext();
     const { group_id } = useParams();
+    const [email, SetEmail] = useState("");
     const navigate = useNavigate();
 
     const group = groups.find(group => group._id === group_id);
@@ -44,6 +45,16 @@ function GroupSettings() {
         }
     };
 
+    const HandleSendGroupInvite = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post(`http://localhost:4000/api/groups/${group._id}/invite/${email}`, {}, GetAuthHeader());
+            
+        } catch ( error ) {
+            console.log("Axios Error:", error);//error.response ? error.response.data : error.message);
+        }
+    };
+
     return (
         <div className="page-container">
             <div className="navbar">
@@ -54,6 +65,21 @@ function GroupSettings() {
                     <div className="icon-container">
                         <MessageCircle className="icon-message-circle" size={40} strokeWidth={3} title={`Message in ${group.name}`} onClick={() => navigate(`/groups/${group._id}/messaging`)} />
                     </div>
+                    {/*<div className="icon-container">
+                        <UserRoundPlus size={40} strokeWidth={3} title={`Message in ${group.name}`} onClick={() => navigate(`/groups/${group._id}/messaging`)} />
+                    </div>*/}
+                    <PopUp button_label="Send a group invite">
+                        <form onSubmit={HandleSendGroupInvite}>
+                            <input 
+                                type="text" 
+                                placeholder="Email"
+                                value={email}
+                                onChange={(event) => SetEmail(event.target.value)}
+                                required
+                            />
+                            <button type="submit" className="btn-constructive">Send Group Invite</button>
+                        </form>
+                    </PopUp>
                 </PageBar>
                 <h1>Members:</h1>
                 <div className="page-element-list">

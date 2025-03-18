@@ -14,9 +14,9 @@ const SignUpUser = async (req, res) => {
       first_name: first_name,
       last_name: last_name,
     });
-    res.status(200).json(user);
+    res.status(201).json({message: "user successfully signed up"});
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "cannot use that email" });
   }
 };
 
@@ -30,6 +30,9 @@ const SignInUser = async (req, res) => {
   try {
     //Find user document with email and grab email, password, and user id.
     const credentials = await User.findOne({email: email}).select("email password _id");
+    if(!credentials) {
+      return res.status(400).json({error: "there is no account registered with that email"});
+    }
     console.log("found user");
     //Naive but for the scope of this project it should be fine.
     if(credentials.password !== password) {
@@ -46,7 +49,7 @@ const SignInUser = async (req, res) => {
 
     console.log("created and saved session to db");
     console.log(session._id);
-    res.status(200).json({session_id: session._id});
+    res.status(202).json({session_id: session._id});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -68,7 +71,7 @@ const SignOutUser = async (req, res) => {
     }
 
     console.log("reached signout");
-    res.status(200).json({error: "successfully signed out"});
+    res.status(200).json({message: "user successfully signed out"});
   } catch (error) {
     res.status(500).json({error: error.message });
   }
@@ -104,7 +107,7 @@ const UpdateAccountInfo = async(req, res) => {
       return res.status(500).json({error: "user does not exist"});
     }
 
-    res.status(200).json({first_name: user.first_name, last_name: user.last_name});
+    res.status(200).json({message: "user successfully updated account information"});
 
   } catch (error) {
     res.status(500).json({error: error.message});

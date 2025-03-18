@@ -32,8 +32,8 @@ function Settings() {
         const account = {first_name, last_name};
         try {
             const response = await axios.patch("http://localhost:4000/api/auth/account-info", account, GetAuthHeader());
-            SetFirst(response.data.first_name);
-            SetLast(response.data.last_name);
+            SetFirst(first_name);
+            SetLast(last_name);
             SetError(null);
             
         } catch (error) {

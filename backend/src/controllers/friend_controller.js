@@ -55,15 +55,15 @@ const FriendRequest = async (req, res) => {
     console.log("friend request called");
     
     try {
-        const receiver_id = await User.findOne({email: email}).select("_id");
+        const receiver = await User.findOne({email: email});
 
-        if(!receiver_id) {
+        if(!receiver) {
             return res.status(401).json({error: "could not find user with that email"});
         }
 
-        const friendship = await Friendship.create({
+        let friendship = await Friendship.create({
             requester: user._id,
-            receiver: receiver_id._id
+            receiver: receiver._id
         })
 
         console.log("friendship awaited");
@@ -71,6 +71,10 @@ const FriendRequest = async (req, res) => {
         if(!friendship) {
             return res.status(500).json({error: "failed to create friendship document"});
         }
+
+        //:(
+        friendship.requester = user;
+        friendship.receiver = receiver;
 
         console.log("friend success");
         res.status(200).json(GetFriend(friendship, user));
@@ -90,7 +94,7 @@ const FriendRequestAccept = async (req, res) => {
             new: true
         })
 
-        res.status(200).json({message: "Accepted friend request"});
+        res.status(200).json({friendship_id: friendship._id});
     } catch (error) {
         res.status(500).json({ error: "Server error friend request accept"});
     }
