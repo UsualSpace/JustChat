@@ -17,6 +17,8 @@ function Groups() {
     const { groups, dispatch } = UseGroupsContext();
     const [group_name, SetGroupName] = useState("");
     const [group_invites, SetGroupInvites] = useState([]);
+    const [success, SetSuccess] = useState(null);
+    const [error, SetError] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -52,14 +54,15 @@ function Groups() {
     const HandleCreateGroup = async () => {
         try {
             const response = await axios.post("http://localhost:4000/api/groups", {group_name}, GetAuthHeader());
-
+            SetError(null);
+            SetSuccess("succesfully created group");
             dispatch({
                 type: "CREATE_GROUP",
                 payload: response.data
             });
 
         } catch ( error ) {
-            console.log("Axios Error:", error.response ? error.response.data : error.message);
+            SetError("failed to create group");
         }
     };
 
@@ -101,14 +104,15 @@ function Groups() {
     const HandleLeaveGroup = async (group_id) => {
         try {
             //rushed, needed user_id and didnt store locally.
-
+            SetError(null);
+            SetSuccess("succesfully left group");
             const response = await axios.patch(`http://localhost:4000/api/groups/${group_id}/remove-member`, {}, GetAuthHeader());
             dispatch({
                 type: "DELETE_GROUP",
                 payload: {group_id}
             });
         } catch (error) {
-            console.log("Axios Error:", error.response ? error.response.data : error.message);
+            SetError("failed to leave group");
         }
     };
 
@@ -138,9 +142,12 @@ function Groups() {
                                 required
                             />
                             <button type="submit" className="btn-constructive">Create Group</button>
+                            {error && <p>{error}</p>}
+                            {success && <p>{success}</p>}
                         </form>
                     </PopUp>
                     <button title="View group invites"> ! </button>
+                    
                 </PageBar>
                 <br/>
                 <div className="page-element-list">

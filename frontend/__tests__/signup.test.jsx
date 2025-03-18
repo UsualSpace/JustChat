@@ -3,6 +3,11 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import SignUp from "../src/pages/signup";
+//import { BrowserRouter } from 'react-router-dom'
+//import { MemoryRouter } from "react-router-dom";
+
+jest.mock("axios");
+
 
 describe("Signup page", () => {
     beforeAll(async () => {
@@ -43,7 +48,7 @@ describe("Signup page", () => {
     });
 
     test("displays 'sign up failed' when signup fails", async () => {
-        axios.post.mockResolvedValue(new Error("sign up failed"));
+        axios.post.mockRejectedValue(new Error("sign up failed"));
 
         render(<SignUp/>);
 

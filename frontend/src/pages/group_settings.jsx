@@ -16,6 +16,8 @@ function GroupSettings() {
     const { groups, dispatch } = UseGroupsContext();
     const { group_id } = useParams();
     const [email, SetEmail] = useState("");
+    const [success, SetSuccess] = useState(null);
+    const [error, SetError] = useState(null);
     const navigate = useNavigate();
 
     const group = groups.find(group => group._id === group_id);

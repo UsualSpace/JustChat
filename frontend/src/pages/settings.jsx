@@ -10,6 +10,7 @@ function Settings() {
     const [first_name, SetFirst] = useState("");
     const [last_name, SetLast] = useState("");
     const [error, SetError] = useState(null);
+    const [success, SetSuccess] = useState(null);
 
     useEffect(() => {
         const GetAccountData = async () => {
@@ -20,7 +21,7 @@ function Settings() {
                 SetLast(response.data.last_name);
                 SetError(null);
             } catch (error) {
-                SetError(error.response?.data?.error || "failed to fetch account data");
+                SetError("failed to fetch account data");
             }
         };
 
@@ -35,9 +36,10 @@ function Settings() {
             SetFirst(first_name);
             SetLast(last_name);
             SetError(null);
+            SetSuccess("successfully updated account information");
             
         } catch (error) {
-            SetError(error.response?.data?.error || "failed to update account info");
+            SetError("failed to update account info");
         }
     };
 
@@ -71,6 +73,7 @@ function Settings() {
 
                 {/* Success/Error Message */}
                 {error && <p>{error}</p>}
+                {success && <p>{success}</p>}
             </div>
         </div>
     );

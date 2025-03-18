@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import axios from "axios"
 
 function SignUp() {
@@ -11,7 +11,7 @@ function SignUp() {
     const [error, SetError] = useState(null);
     const [success, SetSuccess] = useState(null);
 
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     const HandleSubmit = async (event) => {
         event.preventDefault();
