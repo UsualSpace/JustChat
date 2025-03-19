@@ -6,6 +6,8 @@ const GetGroups = async (req, res) => {
     .populate("members")
     .populate("members.user", "_id first_name last_name email")
     .then(groups => {
+      JSON.stringify(groups, null, 2);
+      console.log("hello");
       res.status(200).json(groups);
     })
     .catch(err => {
@@ -51,7 +53,7 @@ const CreateGroup = async (req, res) => {
           }
       ]
     });
-    res.status(200).json(group);
+    res.status(201).json(group);
   } catch (error) {
     res.status(500).json(`Server error create group ${error.message}`);
   }
@@ -80,8 +82,9 @@ const InviteUser = async (req, res) => {
       group: group_id
     });
 
-    res.status(200).json({message: "success"});
+    res.status(201).json({message: "success"});
   } catch (error) {
+    console.log(`ERROR: ${error}`)
     res.status(500).json(`Server error create group ${error.message}`);
   }
 };
@@ -134,6 +137,7 @@ const AddMember = async (req, res) => {
 
     res.status(200).json({message: "success"});
   } catch (error) {
+    console.log(`ERROR: ${error}`)
     res.status(500).json(`Server error create group ${error.message}`);
   }
 };
@@ -180,7 +184,7 @@ const DeleteGroup = async (req, res) => {
     const group = await Group.findById(group_id);
     console.log(group.members[0]);
     if(!group.members.some((member) => String(member.user) === String(user._id) && member.role == "owner")) {
-      return res.status(400).json("delete not authorized for this user");
+      return res.status(400).json({error: "delete not authorized for this user"});
     }
 
     const group_delete = await Group.findByIdAndDelete(group_id);
@@ -188,7 +192,7 @@ const DeleteGroup = async (req, res) => {
       res.status(500).json("Server error: failed to delete group");
     }
 
-    res.status(200).json(group_id);
+    res.status(200).json({message: "success"});
   } catch (error) {
     res.status(500).json(`Server error create group ${error.message}`);
   }
@@ -197,23 +201,34 @@ const DeleteGroup = async (req, res) => {
 const GetMessages = async (req, res) => {
   const { user } = req.body;
   const { group_id } = req.params;
-
+  console.log(`CONTROLLER GID: ${group_id}`);
   if(!group_id || !user) {
     return res.status(400).json({message: "missing fields"});
   }
 
   try {
-    const { messages } = await Group.findById(group_id).populate("messages.sender").select("messages");
-    modified_messages = messages.map(message => {
-      const { _id, createdAt, content } = message;
-      const modified_message = { _id, createdAt, content };
+    const group = await Group.findById(group_id).populate("messages.sender").select("messages");
+    if(!group) {
+      return res.status(400).json({error: "invalid group_id"});
+    }
+
+    const { messages } = group;
+
+    if(!messages) {
+      return res.status(400).json({error: "invalid group_id"});
+    }
+    
+    const modified_messages = messages.map((message) => {
+      let { _id, createdAt, content } = message;
+      let modified_message = { _id, createdAt, content };
       modified_message.sender = message.sender.first_name + " " + message.sender.last_name;
       modified_message.sender_email = message.sender.email;
       return modified_message;
     });
-    console.log(JSON.stringify(modified_messages, null, 2));
-    return res.status(200).json(modified_messages);
+
+    res.status(200).json(modified_messages);
   } catch (error) {
+    console.log(`ERROR: ${error}`);
     res.status(500).json(`Server error get messages ${error.message}`);
   }
 };

@@ -1,8 +1,8 @@
 module.exports = {
-    testEnvironment: "jsdom",
+    testEnvironment: "jest-environment-jsdom",
     moduleFileExtensions: ["js", "jsx", "json", "node"], // Support .jsx files
     moduleNameMapper: {
-      "^@/(.*)$": "<rootDir>/src/$1", // Adjust alias if using @ imports
+      "../constants.js$": "<rootDir>/__mocks__/constants.js", // specific mapping first
     },
     transform: {
       "^.+\\.(js|jsx)$": "babel-jest", // Transform JS/JSX files using Babel

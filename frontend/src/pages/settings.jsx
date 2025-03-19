@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { GetAuthHeader } from "../helpers";
 import axios from "axios"
+import { API_URL } from "../constants.js";
+
 
 //components
 import NavigationBar from "../components/navbar";
@@ -15,7 +17,7 @@ function Settings() {
     useEffect(() => {
         const GetAccountData = async () => {
             try {
-                const response = await axios.get("http://localhost:4000/api/auth/account-info", GetAuthHeader());
+                const response = await axios.get(`${API_URL}/api/auth/account-info`, GetAuthHeader());
                 SetEmail(response.data.email);
                 SetFirst(response.data.first_name);
                 SetLast(response.data.last_name);
@@ -32,14 +34,14 @@ function Settings() {
         event.preventDefault();
         const account = {first_name, last_name};
         try {
-            const response = await axios.patch("http://localhost:4000/api/auth/account-info", account, GetAuthHeader());
+            const response = await axios.patch(`${API_URL}/api/auth/account-info`, account, GetAuthHeader());
             SetFirst(first_name);
             SetLast(last_name);
             SetError(null);
             SetSuccess("successfully updated account information");
             
         } catch (error) {
-            SetError("failed to update account info");
+            SetError("failed to update account information");
         }
     };
 
@@ -59,14 +61,14 @@ function Settings() {
                         type="text"
                         value={first_name}
                         onChange={(event) => SetFirst(event.target.value)}
-                        placeholder="First name"
+                        placeholder="First Name"
                     />
                     <label>Last Name:</label>
                     <input
                         type="text"
                         value={last_name}
                         onChange={(event) => SetLast(event.target.value)}
-                        placeholder="Last name"
+                        placeholder="Last Name"
                     />
                     <button type="submit">Update</button>
                 </form>

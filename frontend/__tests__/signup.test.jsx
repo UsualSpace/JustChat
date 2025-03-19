@@ -3,29 +3,30 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import SignUp from "../src/pages/signup";
-//import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 //import { MemoryRouter } from "react-router-dom";
 
 jest.mock("axios");
 
 
 describe("Signup page", () => {
-    beforeAll(async () => {
-        
-    });
-
-    afterAll(async () => {
-        
-    });
-
     beforeEach(async () => {
         jest.clearAllMocks();
     });
-
+    
     test("displays 'successfully signed up' signup returns status 201", async () => {
-        axios.post.mockResolvedValue({status: 201});
+        axios.post.mockResolvedValue({
+            status: 201,
+            data: {
+                session_id: "random"
+            }
+        });
 
-        render(<SignUp/>);
+        render(
+            <BrowserRouter>
+                <SignUp/>
+            </BrowserRouter>
+        );
 
         const first_name_input = screen.getByPlaceholderText("First Name");
         const last_name_input = screen.getByPlaceholderText("Last Name");
@@ -50,7 +51,11 @@ describe("Signup page", () => {
     test("displays 'sign up failed' when signup fails", async () => {
         axios.post.mockRejectedValue(new Error("sign up failed"));
 
-        render(<SignUp/>);
+        render(
+            <BrowserRouter>
+                <SignUp/>
+            </BrowserRouter>
+        );
 
         const first_name_input = screen.getByPlaceholderText("First Name");
         const last_name_input = screen.getByPlaceholderText("Last Name");

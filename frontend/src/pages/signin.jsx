@@ -1,6 +1,7 @@
-import { Route, Link} from "react-router-dom";
+import { Route, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../constants.js";
 
 function SignIn() {
     const [email, SetEmail] = useState("");
@@ -8,13 +9,13 @@ function SignIn() {
     const [error, SetError] = useState(null);
     const [success, SetSuccess] = useState(null);
 
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const HandleSubmit = async (event) => {
         event.preventDefault();
         const credentials = {email, password};
         try {
-            const response = await axios.post("http://localhost:4000/api/auth/signin", credentials);
+            const response = await axios.post(`${API_URL}/api/auth/signin`, credentials);
             SetEmail("");
             SetPassword("");
             SetError(null);
@@ -32,6 +33,7 @@ function SignIn() {
             navigate("/dashboard");
         } catch (error) {
             SetError("sign in failed");
+            SetSuccess(null);
         }
     }
 

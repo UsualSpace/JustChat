@@ -4,13 +4,13 @@ import { UseGroupsContext } from "../hooks/use_groups_context";
 import { UseSocketContext } from "../hooks/use_socket_context";
 import { GetAuthHeader } from "../helpers";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:4000");
+import { API_URL } from "../constants.js";
+const socket = io(`${API_URL}`);
 
 import axios from "axios";
 
 //components
 import PageBar from "../components/pagebar";
-import Message from "../components/message";
 import NavigationBar from "../components/navbar";
 
 //icons
@@ -18,7 +18,6 @@ import { SendHorizontal, EllipsisVertical } from "lucide-react";
 
 const Messaging = () => {
     const { groups } = UseGroupsContext();
-    //const { socket } = UseSocketContext();
     const { group_id } = useParams();
     const [messages, SetMessages] = useState([]);
     const [new_message, SetNewMessage] = useState("");
@@ -35,7 +34,7 @@ const Messaging = () => {
     useEffect(() => {
         const FetchMessages = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/api/groups/${group._id}/messages`, GetAuthHeader());
+                const response = await axios.get(`${API_URL}/api/groups/${group._id}/messages`, GetAuthHeader());
                 SetMessages(response.data);
             } catch ( error ) {
                 console.log("Axios Error:", error.response ? error.response.data : error.message);

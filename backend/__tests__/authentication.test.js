@@ -1,19 +1,26 @@
 import request from "supertest"; // Supertest allows us to simulate HTTP requests
-import { app, ConnectDB, User, Session } from "../app.js";
+import { app } from "../src/app.js";
+import { Session, User } from "../src/models.js";
 import mongoose from "mongoose";
+import { MongoMemoryServer } from "mongodb-memory-server"
 
-const mongo_url = null;
+//const mongo_url = process.env.MONGO_URL;
+
+let mongo_server;
+
+beforeAll(async () => {
+    mongo_server = await MongoMemoryServer.create();
+    await mongoose.connect(mongo_server.getUri());
+});
+
+afterAll(async () => {
+    await mongoose.disconnect();
+    await mongo_server.stop();
+});
 
 describe("POST /api/auth/signup", () => {
-    beforeAll(async () => {
-        await ConnectDB(mongo_url);
-    });
 
-    afterAll(async () => {
-        await mongoose.disconnect();
-    });
-
-    afterEach(async () => {
+    beforeEach(async () => {
         await User.deleteMany({});
     });
 
@@ -56,16 +63,9 @@ describe("POST /api/auth/signup", () => {
 });
 
 describe("POST /api/auth/signin", () => {
-    beforeAll(async () => {
-        await ConnectDB(mongo_url);
-    });
-
-    afterAll(async () => {
-        await mongoose.disconnect();
-    });
-
-    afterEach(async () => {
+    beforeEach(async () => {
         await User.deleteMany({});
+        await Session.deleteMany({});
     });
 
     it("should return 202 and a valid session id if the account with the email exists and the password is correct", async () => {
@@ -110,16 +110,9 @@ describe("POST /api/auth/signin", () => {
 });
 
 describe("DELETE /api/auth/signout", () => {
-    beforeAll(async () => {
-        await ConnectDB(mongo_url);
-    });
-
-    afterAll(async () => {
-        await mongoose.disconnect();
-    });
-
-    afterEach(async () => {
+    beforeEach(async () => {
         await User.deleteMany({});
+        await Session.deleteMany({});
     });
 
     it("should return 200 if a valid session id is received", async () => {
@@ -138,15 +131,16 @@ describe("DELETE /api/auth/signout", () => {
                 password: "helpme" 
             });
 
-        const session_id = signin_response.session_id;
+        const session_id = signin_response.body.session_id;
+        console.log(session_id);
 
         //try to sign out user
         const signout_response = await request(app)
-            .post("/api/auth/signout")
-            .set("Authorization", "Bearer " + String(session_id));
+            .delete("/api/auth/signout")
+            .set("authorization", `Bearer ${session_id}`);
 
         expect(signout_response.status).toBe(200);
-        expect(signout_response.message).toBe("user successfully signed out");
+        expect(signout_response.body.message).toBe("user successfully signed out");
         const session = await Session.findById(session_id);
         expect(session).toBeNull();
     });
@@ -154,25 +148,18 @@ describe("DELETE /api/auth/signout", () => {
     it("should return 401 if an invalid session id is received", async () => {
         //try to sign out user
         const signout_response = await request(app)
-            .post("/api/auth/signout")
-            .set("Authorization", "Bearer dshufhusf");
+            .delete("/api/auth/signout")
+            .set("authorization", "Bearer dshufhusf");
 
         expect(signout_response.status).toBe(401);
-        expect(signout_response.error).toBe("invalid session id");
+        expect(signout_response.body.error).toBe("invalid session id");
     });
 });
 
 describe("GET /api/auth/account-info", () => {
-    beforeAll(async () => {
-        await ConnectDB(mongo_url);
-    });
-
-    afterAll(async () => {
-        await mongoose.disconnect();
-    });
-
-    afterEach(async () => {
+    beforeEach(async () => {
         await User.deleteMany({});
+        await Session.deleteMany({});
     });
 
     it("should return status 200 and a correct first_name, last_name, and email for a valid signed in user", async () => {
@@ -191,30 +178,23 @@ describe("GET /api/auth/account-info", () => {
                 password: "helpme" 
             });
 
-        const session_id = signin_response.session_id;
+        const session_id = signin_response.body.session_id;
 
         const account_info_response = await request(app)
             .get("/api/auth/account-info")
-            .set("Authorization", "Bearer " + String(session_id));
+            .set("authorization", `Bearer ${session_id}`);
 
         expect(account_info_response.status).toBe(200);
-        expect(account_info_response.email).toBe("johndoe@example.com");
-        expect(account_info_response.first_name).toBe("John");
-        expect(account_info_response.last_name).toBe("Doe");
+        expect(account_info_response.body.email).toBe("johndoe@example.com");
+        expect(account_info_response.body.first_name).toBe("John");
+        expect(account_info_response.body.last_name).toBe("Doe");
     });
 });
 
 describe("PATCH /api/auth/account-info", () => {
-    beforeAll(async () => {
-        await ConnectDB(mongo_url);
-    });
-
-    afterAll(async () => {
-        await mongoose.disconnect();
-    });
-
-    afterEach(async () => {
+    beforeEach(async () => {
         await User.deleteMany({});
+        await Session.deleteMany({});
     });
 
     it("should return status 200 if a given first_name and last_name are valid for a valid signed in user", async () => {
@@ -233,21 +213,21 @@ describe("PATCH /api/auth/account-info", () => {
                 password: "helpme" 
             });
 
-        const session_id = signin_response.session_id;
+        const session_id = signin_response.body.session_id;
 
         const account_info_response = await request(app)
             .patch("/api/auth/account-info")
-            .set("Authorization", "Bearer " + String(session_id))
+            .set("authorization", `Bearer ${session_id}`)
             .send({
                 first_name: "Jane",
                 last_name: "Dove"
             });
 
         expect(account_info_response.status).toBe(200);
-        expect(account_info_response.message).toBe("user successfully updated account information");
+        expect(account_info_response.body.message).toBe("user successfully updated account information");
 
         const user = await User.findOne({email: "johndoe@example.com"});
-        expect(account_info_response.first_name).toBe("Jane");
-        expect(account_info_response.last_name).toBe("Dove");
+        expect(user.first_name).toBe("Jane");
+        expect(user.last_name).toBe("Dove");
     });
 });

@@ -19,7 +19,7 @@ router.get("/groups/:group_id/messages", middleware.AuthenticateSession, group.G
 
 router.post("/groups", middleware.AuthenticateSession, group.CreateGroup); //post a new chat.
 // router.post("/groups/:group_id/message", middleware.AuthenticateSession, ); //post a message to the chat with with group_id. NOTE: NOT NEEDED DUE TO IT BEING HANDLED BY SOCKET.IO.   
-router.post("/groups/:group_id/censored-phrases/:phrase", middleware.AuthenticateSession, ); //post a new censored phrase in the chat with chatID. 
+//router.post("/groups/:group_id/censored-phrases/:phrase", middleware.AuthenticateSession, ); //post a new censored phrase in the chat with chatID. 
 router.post("/groups/:group_id/invite/:email", middleware.AuthenticateSession, group.InviteUser)
 router.delete("/groups/remove-invite/:invite_id", middleware.AuthenticateSession, group.RemoveInvite);
 
@@ -27,7 +27,7 @@ router.patch("/groups/:group_id/add-member", middleware.AuthenticateSession, gro
 router.patch("/groups/:group_id/remove-member", middleware.AuthenticateSession, group.RemoveMember);
 
 router.delete("/groups/:group_id", middleware.AuthenticateSession, group.DeleteGroup); //delete an existing group with group_id.
-router.delete("/groups/:group_id/censored-phrases/:phrase", middleware.AuthenticateSession, ); //delete an existing censored phrase in the chat with chatID.
+//router.delete("/groups/:group_id/censored-phrases/:phrase", middleware.AuthenticateSession, ); //delete an existing censored phrase in the chat with chatID.
 
 //FRIENDSHIP RELATED ROUTES.
 router.get("/friends", middleware.AuthenticateSession, friend.GetFriends); //get all friends of a user

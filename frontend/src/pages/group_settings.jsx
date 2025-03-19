@@ -3,6 +3,7 @@ import { UseGroupsContext } from "../hooks/use_groups_context";
 import { GetAuthHeader } from "../helpers";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../constants.js";
 
 //components
 import PageBar from "../components/pagebar";
@@ -20,23 +21,33 @@ function GroupSettings() {
     const [error, SetError] = useState(null);
     const navigate = useNavigate();
 
-    const group = groups.find(group => group._id === group_id);
+    let group;
 
+    useEffect(() => {
+        const FetchGroups = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/api/groups`, GetAuthHeader());
+
+                dispatch({
+                    type: "SET_GROUPS",
+                    payload: response.data
+                });
+
+            } catch ( error ) {
+                console.log("Axios Error:", error.response ? error.response.data : error.message);
+            }
+        };
+        FetchGroups();
+    }, [dispatch]);
+    
+    if(groups) group = groups.find(group => group._id === group_id);
     if(!group) {
         console.log("group data not found");
     }
 
-    // useEffect(() => {
-    //     const GetGroupData = () => {
-            
-    //     };
-
-    //     GetGroupData();
-    // }, []);
-
     const HandleDeleteGroup = async () => {
         try {
-            const response = await axios.delete(`http://localhost:4000/api/groups/${group._id}`, GetAuthHeader());
+            const response = await axios.delete(`${API_URL}/api/groups/${group?._id}`, GetAuthHeader());
             dispatch({
                 type: "DELETE_GROUP",
                 payload: response.data
@@ -50,8 +61,7 @@ function GroupSettings() {
     const HandleSendGroupInvite = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:4000/api/groups/${group._id}/invite/${email}`, {}, GetAuthHeader());
-            
+            const response = await axios.post(`${API_URL}/api/groups/${group._id}/invite/${email}`, {}, GetAuthHeader());
         } catch ( error ) {
             console.log("Axios Error:", error);//error.response ? error.response.data : error.message);
         }
@@ -63,7 +73,7 @@ function GroupSettings() {
                 <NavigationBar></NavigationBar>
             </div>
             <div className="page-background">
-                <PageBar title={`${group.name} Settings`}>
+                <PageBar title={`${group?.name} Settings`}>
                     <div className="icon-container">
                         <MessageCircle className="icon-message-circle" size={40} strokeWidth={3} title={`Message in ${group.name}`} onClick={() => navigate(`/groups/${group._id}/messaging`)} />
                     </div>

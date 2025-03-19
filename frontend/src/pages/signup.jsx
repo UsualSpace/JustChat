@@ -1,6 +1,7 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
+import { API_URL } from "../constants.js";
 
 function SignUp() {
     const [email, SetEmail] = useState("");
@@ -11,13 +12,14 @@ function SignUp() {
     const [error, SetError] = useState(null);
     const [success, SetSuccess] = useState(null);
 
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const HandleSubmit = async (event) => {
         event.preventDefault();
+
         const account = {email, password, first_name, last_name};
         try {
-            const response = await axios.post("http://localhost:4000/api/auth/signup", account);
+            const response = await axios.post(`${API_URL}/api/auth/signup`, account);
             //Clear form fields on successful signup
             SetFirst("");
             SetLast("");
@@ -29,22 +31,22 @@ function SignUp() {
 
             console.log("successfully signed up");
 
-            // const session_res = await axios.post("http://localhost:4000/api/auth/signin", { email, password });
-            // console.log("successfully signed in");
+            const session_res = await axios.post(`${API_URL}/api/auth/signin`, { email, password });
+            console.log("successfully signed in");
             
-            // //Store session id from server locally for protecting routes/future user authentication.
-            // sessionStorage.setItem("session_id", session_res.data.session_id);
+            //Store session id from server locally for protecting routes/future user authentication.
+            sessionStorage.setItem("session_id", session_res.data.session_id);
 
-            // //Not sure how okay this is, but we need a way to differentiate between sender and recipient when displaying group messages,
-            // //especially when loading a chat and fetching the chat history.
-            // sessionStorage.setItem("email", email);
+            //Not sure how okay this is, but we need a way to differentiate between sender and recipient when displaying group messages,
+            //especially when loading a chat and fetching the chat history.
+            sessionStorage.setItem("email", email);
 
             //Force navigate to the main dashboard.
-            //navigate("/dashboard");
-            //navigate("/signin");
+            navigate("/dashboard");
     
         } catch (error) {
             SetError("sign up failed");
+            SetSuccess(null);
         }
     }
 

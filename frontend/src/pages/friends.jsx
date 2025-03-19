@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { UseFriendsContext } from "../hooks/use_friends_context";
 import { GetAuthHeader } from "../helpers";
 import PopUp from "../components/popup";
+import { API_URL } from "../constants.js";
 
 import axios from "axios"
 
@@ -16,7 +17,7 @@ function Friends() {
     useEffect(() => {
         const FetchFriends = async () => {
             try {
-                const response = await axios.get("http://localhost:4000/api/friends", GetAuthHeader());
+                const response = await axios.get(`${API_URL}/api/friends`, GetAuthHeader());
 
                 dispatch({
                     type: "SET_FRIENDS",
@@ -34,7 +35,7 @@ function Friends() {
     const HandleFriendRequest = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:4000/api/friends/${email}`, {}, GetAuthHeader());
+            const response = await axios.post(`${API_URL}/api/friends/${email}`, {}, GetAuthHeader());
             console.log("help");
             dispatch({
                 type: "CREATE_FRIEND",
@@ -47,7 +48,7 @@ function Friends() {
 
     const HandleFriendRequestAccept = async (friend) => {
         try {
-            const response = await axios.patch(`http://localhost:4000/api/friends/${friend.friendship_id}`, {}, GetAuthHeader());
+            const response = await axios.patch(`${API_URL}/api/friends/${friend.friendship_id}`, {}, GetAuthHeader());
 
             dispatch({
                 type: "ACCEPT_FRIEND",
@@ -61,7 +62,7 @@ function Friends() {
 
     const HandleUnfriend = async (friend) => {
         try {
-            const response = await axios.delete(`http://localhost:4000/api/friends/${friend.friendship_id}`, GetAuthHeader());
+            const response = await axios.delete(`${API_URL}/api/friends/${friend.friendship_id}`, GetAuthHeader());
 
             dispatch({
                 type: "DELETE_FRIEND",

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { UseGroupsContext } from "../hooks/use_groups_context";
 import { GetAuthHeader } from "../helpers";
 import { useNavigate } from 'react-router-dom';
-
+import { API_URL } from "../constants.js";
 import axios from "axios"
 
 //components
@@ -24,12 +24,14 @@ function Groups() {
     useEffect(() => {
         const FetchGroups = async () => {
             try {
-                const response = await axios.get("http://localhost:4000/api/groups", GetAuthHeader());
+                const response = await axios.get(`${API_URL}/api/groups`, GetAuthHeader());
 
                 dispatch({
                     type: "SET_GROUPS",
                     payload: response.data
                 });
+
+                
 
             } catch ( error ) {
                 console.log("Axios Error:", error.response ? error.response.data : error.message);
@@ -38,7 +40,7 @@ function Groups() {
 
         const FetchInvites = async () => {
             try {
-                const response = await axios.get("http://localhost:4000/api/groups/invites", GetAuthHeader());
+                const response = await axios.get(`${API_URL}/api/groups/invites`, GetAuthHeader());
 
                 SetGroupInvites(response.data);
 
@@ -51,9 +53,12 @@ function Groups() {
         FetchInvites();
     }, []);
 
-    const HandleCreateGroup = async () => {
+    console.log(JSON.stringify(groups, null, 2));
+
+    const HandleCreateGroup = async (event) => {
+        event.preventDefault();
         try {
-            const response = await axios.post("http://localhost:4000/api/groups", {group_name}, GetAuthHeader());
+            const response = await axios.post(`${API_URL}/api/groups`, {group_name}, GetAuthHeader());
             SetError(null);
             SetSuccess("succesfully created group");
             dispatch({
@@ -63,6 +68,7 @@ function Groups() {
 
         } catch ( error ) {
             SetError("failed to create group");
+            SetSuccess(null);
         }
     };
 
@@ -70,7 +76,7 @@ function Groups() {
         console.log("HELLO");
         try {        
             console.log("HELLO");
-            const response = await axios.delete(`http://localhost:4000/api/groups/remove-invite/${invite_id}`, GetAuthHeader());
+            const response = await axios.delete(`${API_URL}/api/groups/remove-invite/${invite_id}`, GetAuthHeader());
             console.log(response);
             const result = group_invites.filter(invite => invite._id !== invite_id);
             
@@ -83,15 +89,15 @@ function Groups() {
 
     const HandleAcceptInvite = async (invite) => {
         try {
-            const user_added_response = await axios.patch(`http://localhost:4000/api/groups/${invite.group._id}/add-member`, {}, GetAuthHeader());
+            const user_added_response = await axios.patch(`${API_URL}/api/groups/${invite.group._id}/add-member`, {}, GetAuthHeader());
 
-            const groups_response = await axios.get("http://localhost:4000/api/groups", GetAuthHeader());
+            const groups_response = await axios.get(`${API_URL}/api/groups`, GetAuthHeader());
             dispatch({
                 type: "SET_GROUPS",
                 payload: groups_response.data
             });
 
-            const response = await axios.delete(`http://localhost:4000/api/groups/remove-invite/${invite._id}`, GetAuthHeader());
+            const response = await axios.delete(`${API_URL}/api/groups/remove-invite/${invite._id}`, GetAuthHeader());
             const result = group_invites.filter(invite => invite._id !== invite._id);
 
             SetGroupInvites(result);
@@ -106,13 +112,14 @@ function Groups() {
             //rushed, needed user_id and didnt store locally.
             SetError(null);
             SetSuccess("succesfully left group");
-            const response = await axios.patch(`http://localhost:4000/api/groups/${group_id}/remove-member`, {}, GetAuthHeader());
+            const response = await axios.patch(`${API_URL}/api/groups/${group_id}/remove-member`, {}, GetAuthHeader());
             dispatch({
                 type: "DELETE_GROUP",
                 payload: {group_id}
             });
         } catch (error) {
             SetError("failed to leave group");
+            SetSuccess(null);
         }
     };
 
