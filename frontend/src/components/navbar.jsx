@@ -1,6 +1,7 @@
 import { Route, Link, useNavigate } from "react-router-dom";
 import "../styles/navbar.css"; // Import the CSS file
 import axios from "axios"
+import { API_URL } from "../constants.js"
 
 const NavigationBar = () => {
 
@@ -9,7 +10,7 @@ const NavigationBar = () => {
   const HandleSignOut = async () => {
     try {
       const session_id = sessionStorage.getItem("session_id");
-      const response = await axios.delete("http://localhost:4000/api/auth/signout", {
+      const response = await axios.delete(`${API_URL}/api/auth/signout`, {
           headers: {
               "authorization": `Bearer ${session_id}`
           }
