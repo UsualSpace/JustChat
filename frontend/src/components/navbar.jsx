@@ -16,8 +16,8 @@ const NavigationBar = () => {
           }
       });
 
-      localStorage.setItem("session_id", "");
-      localStorage.setItem("email", "");
+      sessionStorage.setItem("session_id", "");
+      sessionStorage.setItem("email", "");
       console.log("successfully signed out");
       navigate("/signin");
 
